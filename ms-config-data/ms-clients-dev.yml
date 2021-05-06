@@ -1,0 +1,40 @@
+server:
+  port: ${PORT:9090}
+---
+spring:
+  application:
+    name: ms-clients
+---
+info:
+  project:
+    version: 1.0.0
+---
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:7432/clients-db
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    data: "classpath:init-data.sql"
+    #schema: "classpath:create_schema.sql"
+    initialization-mode: always
+---
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+---
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
+        exclude:
