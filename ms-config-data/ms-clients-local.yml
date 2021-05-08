@@ -43,3 +43,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+    availability-zones: 1
+    eureka-server-connect-timeout-seconds: 30
+    healthcheck:
+      enabled: true
