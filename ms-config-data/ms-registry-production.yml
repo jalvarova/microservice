@@ -1,0 +1,36 @@
+server:
+  port: ${PORT:8090}
+---
+spring:
+  application:
+    name: ms-registry
+---
+info:
+  project:
+    version: 1.0.0
+---
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
+        exclude:
+---
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+---
+logging:
+  level:
+    com:
+      netflix:
+        eureka: OFF
+        discovery: OFF
