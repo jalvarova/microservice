@@ -44,3 +44,5 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
     eureka-server-connect-timeout-seconds: 30
+  instance:
+    preferIpAddress: true
