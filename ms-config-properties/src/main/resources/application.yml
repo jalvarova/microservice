@@ -1,0 +1,36 @@
+server:
+  port: ${PORT:8088}
+---
+spring:
+  application:
+    name: ms-config-properties
+  profiles:
+    active: local,dev,qa,production
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: /home/walavo/programming/workspace-microservices/microservice/ms-config-data
+        git:
+          uri: https://github.com/jalvarova/microservice.git
+          username: ${GIT_USER:wa}
+          password: ${GIT_PWD:123}
+          search-paths: ${GIT_DATA:ms-config-data}
+          clone-on-start: true
+          timeout: 10
+#          repos:
+#            a:
+---
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
+        exclude:
