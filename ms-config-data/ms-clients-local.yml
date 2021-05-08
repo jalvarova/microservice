@@ -8,6 +8,8 @@ spring:
 info:
   project:
     version: 1.0.0
+    name: ms-clients
+    description: Microservice de clientes
 ---
 spring:
   datasource:
