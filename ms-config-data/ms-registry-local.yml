@@ -28,8 +28,8 @@ management:
 eureka:
   instance:
     hostname: localhost
-    statusPageUrlPath: ${eureka.instance.hostName}/info
-    healthCheckUrlPath: ${eureka.instance.hostName}/health
+    statusPageUrlPath: http://localhost/info
+    healthCheckUrlPath: http://localhost/health
   client:
     register-with-eureka: false
     fetch-registry: false
