@@ -28,13 +28,23 @@ spring:
     show-sql: true
 ---
 management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
   endpoints:
     web:
-      base-path: /
+      base-path: /ms-clients
       path-mapping:
         prometheus: /metrics
       exposure:
         include:
+          - actuator
           - health
           - info
           - metrics

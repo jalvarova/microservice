@@ -12,13 +12,26 @@ info:
     description: Microservice Api Gateway
 ---
 management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    gateway:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
   endpoints:
     web:
-      base-path: /
+      base-path: /ms-gateway
       path-mapping:
         prometheus: /metrics
       exposure:
         include:
+          - gateway
+          - actuator
           - health
           - info
           - metrics
