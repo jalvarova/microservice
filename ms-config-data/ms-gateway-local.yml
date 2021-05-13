@@ -48,12 +48,12 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: id-ms-customers
-          uri: lb://MS-GESTION-INSTRUCTOR
-          predicates:
-            - Path=/api/v1/customers/**
-          filters:
-            - RewritePath=/ms-instructor/(?<path>.*), /$\{path}
+#        - id: id-ms-customers
+#          uri: lb://MS-GESTION-INSTRUCTOR
+#          predicates:
+#            - Path=/api/v1/customers/**
+#          filters:
+#            - RewritePath=/ms-instructor/(?<path>.*), /$\{path}
         - id: id-albumes
           uri: https://jsonplaceholder.typicode.com/albums
           predicates:
