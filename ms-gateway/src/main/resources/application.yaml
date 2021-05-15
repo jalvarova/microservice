@@ -1,0 +1,16 @@
+server:
+  servlet:
+    context-path: ms-gateway
+---
+spring:
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-attempts: 5
+  config:
+    import: optional:configserver:${MS_CONFIG_SERVER:http://localhost:8088}
+  application:
+    name: ms-gateway
+  profiles:
+    active: ${MS_PROFILE:local}
