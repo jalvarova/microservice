@@ -1,16 +1,16 @@
 server:
-  port: ${PORT:8080}
-  servlet:
-    context-path: ms-gateway
+  port: ${PORT:9545}
+#  servlet:
+#    context-path: ms-mediator-event
 ---
 spring:
   application:
-    name: ms-gateway
+    name: ms-mediator-event
 ---
 info:
   project:
     version: 1.0.0
-    name: ms-gateway
+    name: ms-mediator-event
     description: Microservice Api Gateway
 ---
 management:
@@ -19,45 +19,23 @@ management:
       enabled: true
     metrics:
       enabled: true
-    gateway:
-      enabled: true
   metrics:
     export:
       prometheus:
         enabled: true
   endpoints:
     web:
-      base-path: /ms-gateway
+      base-path: /ms-mediator-event
       path-mapping:
         prometheus: /metrics
       exposure:
         include:
-          - gateway
           - actuator
           - health
           - info
           - metrics
           - prometheus
         exclude:
----
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-#        - id: id-ms-customers
-#          uri: lb://MS-GESTION-INSTRUCTOR
-#          predicates:
-#            - Path=/api/v1/customers/**
-#          filters:
-#            - RewritePath=/ms-instructor/(?<path>.*), /$\{path}
-        - id: id-albumes
-          uri: https://jsonplaceholder.typicode.com/albums
-          predicates:
-            - Path=/albums
 ---
 eureka:
   client:
@@ -69,3 +47,20 @@ eureka:
     wait-time-in-ms-when-sync-empty: 3
   instance:
     preferIpAddress: false
+---
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USR:user}
+    password: ${RABBITMQ_PWD:password}
+---
+spring:
+  cloud:
+    gcp:
+      pubsub:
+        project-id: "Walavo"
+        credentials:
+          location: 'classpath:/account-service.json'
+      config:
+        enabled: false
