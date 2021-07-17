@@ -8,25 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hta.dto.enums.CurrencyCode;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "amount",
-        "exchangeRateAmount",
-        "exchangeRate",
-        "currencyOrigin",
-        "currencyDestination",
-        "username",
-        "documentNumber"})
-
-public class CurrencyTransactionEventDto implements Serializable {
+@JsonPropertyOrder({"amount", "exchangeRateAmount", "exchangeRate", "currencyOrigin", "currencyDestination"})
+public class CurrencyExchangeRsDto {
 
     private BigDecimal amount;
 
@@ -36,15 +26,10 @@ public class CurrencyTransactionEventDto implements Serializable {
 
     private CurrencyCode currencyOrigin;
 
+    private String nameOrigin;
+
     private CurrencyCode currencyDestination;
 
-    private String username;
+    private String nameDestination;
 
-    private String documentNumber;
-
-    private String numberOperation;
-
-    private BigInteger accountNumberOrigin;
-
-    private BigInteger accountNumberDestination;
 }
