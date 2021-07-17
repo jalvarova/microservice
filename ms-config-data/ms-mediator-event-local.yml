@@ -23,7 +23,7 @@ management:
         enabled: true
   endpoints:
     web:
-      base-path: /ms-mediator-event
+#      base-path: /ms-mediator-event
       path-mapping:
         prometheus: /metrics
       exposure:
