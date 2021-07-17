@@ -71,7 +71,7 @@
     <!-- LOG everything at INFO level -->
     <root level="INFO">
         <appender-ref ref="console" />
-        <appender-ref ref="logstash" />
+<!--        <appender-ref ref="logstash" />-->
     </root>
 
 </configuration>
