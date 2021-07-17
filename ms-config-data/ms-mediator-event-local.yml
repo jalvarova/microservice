@@ -47,6 +47,15 @@ eureka:
     preferIpAddress: false
 ---
 spring:
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          health-url: /ms-mediator-event/health
+        url: http://localhost:9000
+---
+spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
