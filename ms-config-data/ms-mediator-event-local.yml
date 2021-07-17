@@ -33,6 +33,7 @@ management:
           - info
           - metrics
           - prometheus
+          - instances
         exclude:
 ---
 eureka:
@@ -50,11 +51,9 @@ spring:
   boot:
     admin:
       client:
-        enabled: true
         instance:
           health-url: /ms-mediator-event/health
         url: http://localhost:9000
-        api-path: /
 ---
 spring:
   rabbitmq:
