@@ -53,7 +53,6 @@ spring:
       client:
         instance:
           health-url: /ms-mediator-event/health
-        url: http://localhost:9000
 ---
 spring:
   rabbitmq:
