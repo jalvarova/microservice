@@ -152,7 +152,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(value = {NullPointerException.class, RuntimeException.class})
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ResponseEntity<?> handleAllExceptions(NullPointerException ex, HttpServletRequest req) {
+    public ResponseEntity<?> handleAllExceptions(Exception ex, HttpServletRequest req) {
         log.error("Exception error handler " + "handleAllExceptions" + " error http : " + INTERNAL_SERVER_ERROR);
 
         List<ErrorDetail> errorDetails = Arrays.stream(ex.getStackTrace())
