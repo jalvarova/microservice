@@ -11,6 +11,7 @@ import org.hta.thirtyparty.model.ClientDto;
 import org.hta.thirtyparty.model.UserDto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,9 +30,9 @@ public class CurrencyOperationDto {
 
         private BigDecimal exchangeRateAmount;
 
-        private String accountNumberOrigin;
+        private BigInteger accountNumberOrigin;
 
-        private String accountNumberDestination;
+        private BigInteger accountNumberDestination;
 
         private UserDto user;
 

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @ToString
 @Getter
@@ -45,9 +46,9 @@ public class CurrencyTransaction extends EntityBase {
     private String operationNumber;
 
     @Column(name = "account_origin")
-    private String accountOrigin;
+    private BigInteger accountOrigin;
 
     @Column(name = "account_destination")
-    private String accountDestination;
+    private BigInteger accountDestination;
 
 }
