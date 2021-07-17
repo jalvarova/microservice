@@ -1,0 +1,52 @@
+server:
+  port: ${PORT:9000}
+  servlet:
+    context-path: ms-admin-server
+---
+spring:
+  application:
+    name: ms-admin-server
+---
+info:
+  project:
+    version: 1.0.0
+    name: ms-admin-server
+    description: Microservice Server Admin
+---
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    gateway:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      base-path: /ms-admin-server
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - gateway
+          - actuator
+          - health
+          - info
+          - metrics
+          - prometheus
+        exclude:
+---
+eureka:
+  client:
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    eureka-server-connect-timeout-seconds: 30
+    registryFetchIntervalSeconds: 10
+    wait-time-in-ms-when-sync-empty: 3
+  instance:
+    preferIpAddress: false
