@@ -1,0 +1,100 @@
+server:
+  port: ${PORT:9094}
+---
+spring:
+  application:
+    name: ms-currency
+---
+info:
+  project:
+    version: 1.0.0
+    name: ms-currency
+    description: Microservice de RBAC Login
+---
+spring:
+  datasource:
+    url: ${HOST_DATABASE:jdbc:postgresql://localhost:7432/currencydb}
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    #data: "classpath:init-data.sql"
+    #schema: "classpath:create_schema.sql"
+    initialization-mode: always
+---
+spring:
+  jpa:
+    scan: org.hta.domain.entity
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+---
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      base-path: /ms-currency
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - actuator
+          - health
+          - info
+          - metrics
+          - prometheus
+        exclude:
+---
+event:
+  uri: http://localhost:9545/ms-mediator-event/api/v1
+  app: hta
+  origin: currency
+  destination: transaction
+  domain: currency-exchange
+identity:
+  uri: http://localhost:9093/ms-identity/api/v1/
+customers:
+  uri: http://localhost:9090/ms-clients/api/v1/
+---
+feign:
+  client:
+    config:
+      identity-service:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+      event-service:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+      customers-service:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+---
+eureka:
+  client:
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    eureka-server-connect-timeout-seconds: 30
+    registryFetchIntervalSeconds: 10
+  instance:
+    preferIpAddress: false
+---
+opentracing:
+  jaeger:
+    service-name: ms-currency
+    enabled: true
+    udp-sender:
+      host: localhost
+      port: 6831
+    log-spans: true
