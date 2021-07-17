@@ -3,13 +3,13 @@ server:
 ---
 spring:
   application:
-    name: ms-currency
+    name: ms-currency-transaction
 ---
 info:
   project:
     version: 1.0.0
-    name: ms-currency
-    description: Microservice Currency Exchange
+    name: ms-currency-transaction
+    description: Microservice Currency Exchange Transaction
 ---
 spring:
   datasource:
@@ -41,7 +41,7 @@ management:
         enabled: true
   endpoints:
     web:
-      base-path: /ms-currency
+      base-path: /ms-currency-transaction
       path-mapping:
         prometheus: /metrics
       exposure:
@@ -53,19 +53,17 @@ management:
           - prometheus
         exclude:
 ---
-identity:
-  uri: http://localhost:9093/ms-identity/api/v1/
-customers:
-  uri: http://localhost:9090/ms-clients/api/v1/
+event:
+  uri: http://localhost:9545/ms-mediator-event/api/v1
+  app: hta
+  origin: currency
+  destination: transaction
+  domain: currency-exchange
 ---
 feign:
   client:
     config:
-      identity-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
-      customers-service:
+      event-service:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
@@ -82,7 +80,7 @@ eureka:
 ---
 opentracing:
   jaeger:
-    service-name: ms-currency
+    service-name: ms-currency-transaction
     enabled: true
     udp-sender:
       host: localhost
