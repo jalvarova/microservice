@@ -1,7 +1,5 @@
 server:
   port: ${PORT:9545}
-#  servlet:
-#    context-path: ms-mediator-event
 ---
 spring:
   application:
@@ -11,7 +9,7 @@ info:
   project:
     version: 1.0.0
     name: ms-mediator-event
-    description: Microservice Api Gateway
+    description: Microservice Api Event Mediator
 ---
 management:
   endpoint:
@@ -59,8 +57,8 @@ spring:
   cloud:
     gcp:
       pubsub:
-        project-id: "Walavo"
+        project-id: ${PROYECT_ID}
         credentials:
-          location: 'classpath:/account-service.json'
+          location: 'classpath:/iam-service.json'
       config:
         enabled: false
