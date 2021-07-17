@@ -9,7 +9,7 @@ info:
   project:
     version: 1.0.0
     name: ms-currency
-    description: Microservice de RBAC Login
+    description: Microservice Currency Exchange
 ---
 spring:
   datasource:
