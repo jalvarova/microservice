@@ -1,9 +1,11 @@
 package org.hta.controller;
 
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import org.hta.dto.*;
+import org.hta.dto.CurrencyExchangeDto;
+import org.hta.dto.CurrencyExchangeRsDto;
+import org.hta.dto.CurrencyOperationDto;
+import org.hta.dto.CurrencyTransactionDto;
 import org.hta.service.ICurrencyExchangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,21 +29,9 @@ public class CurrencyExchangeController {
         return currencyExchangeService.applyExchangeRate(request);
     }
 
-
-    @PutMapping(value = "/currency-exchange", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Single<CurrencyExchangeDto> updateCurrencyExchange(@RequestBody @Valid CurrencyExchangeDto request) {
-        return currencyExchangeService.updateExchangeRate(request);
-    }
-
     @GetMapping(value = "/currency-exchange", produces = MediaType.APPLICATION_JSON_VALUE)
     public Single<List<CurrencyExchangeDto>> getAllCurrencyExchange() {
         return currencyExchangeService.getAllCurrencyExchange();
-    }
-
-
-    @PostMapping(value = "/currency-exchange", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Observable<CurrencyExchangeDto> saveCurrencyExchange(@RequestBody @Valid List<CurrencyExchangeDto> request) {
-        return currencyExchangeService.saveExchangeRate(request);
     }
 
     @GetMapping(
@@ -55,15 +45,6 @@ public class CurrencyExchangeController {
         return currencyExchangeService.getAllCurrencyTransaction(authorization, username, documentNumber);
     }
 
-
-    @PutMapping(
-            value = "/currency-exchange/transaction",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Maybe<?> saveCurrencyExchangeTransaction(@RequestBody @Valid CurrencyTransactionEventDto currencyTransactionDto) {
-        return currencyExchangeService.saveCurrencyExchangeTransaction(currencyTransactionDto);
-    }
-
     @GetMapping(
             value = "/currency-exchange/transaction/{operation}/customer/{documentNumber}",
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,7 +53,7 @@ public class CurrencyExchangeController {
             @PathVariable("operation") String operation,
             @PathVariable("documentNumber") String documentNumber) {
         String authorization = request.getHeader("Authorization");
-        return currencyExchangeService.getCurrencyExchangeTransaction(operation, documentNumber,authorization);
+        return currencyExchangeService.getCurrencyExchangeTransaction(operation, documentNumber, authorization);
     }
 
 }

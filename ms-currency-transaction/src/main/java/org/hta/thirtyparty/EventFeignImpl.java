@@ -1,14 +1,12 @@
 package org.hta.thirtyparty;
 
 import io.reactivex.Maybe;
-import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
-import org.hta.dto.CurrencyExchangeRsDto;
 import org.hta.dto.CurrencyTransactionEventDto;
-import org.hta.thirtyparty.model.event.BROKER;
-import org.hta.thirtyparty.model.event.Metadata;
-import org.hta.thirtyparty.model.event.RequestEvent;
-import org.hta.thirtyparty.model.event.ResponseEvent;
+import org.hta.thirtyparty.model.BROKER;
+import org.hta.thirtyparty.model.Metadata;
+import org.hta.thirtyparty.model.RequestEvent;
+import org.hta.thirtyparty.model.ResponseEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

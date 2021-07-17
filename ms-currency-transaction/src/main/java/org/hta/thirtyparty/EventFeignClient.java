@@ -1,7 +1,7 @@
 package org.hta.thirtyparty;
 
-import org.hta.thirtyparty.model.event.RequestEvent;
-import org.hta.thirtyparty.model.event.ResponseEvent;
+import org.hta.thirtyparty.model.RequestEvent;
+import org.hta.thirtyparty.model.ResponseEvent;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;

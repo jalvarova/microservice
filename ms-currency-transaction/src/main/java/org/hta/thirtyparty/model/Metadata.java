@@ -1,4 +1,4 @@
-package org.hta.thirtyparty.model.event;
+package org.hta.thirtyparty.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

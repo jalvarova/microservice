@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hta.dto.enums.CurrencyCode;
-import org.hta.thirtyparty.model.ClientDto;
-import org.hta.thirtyparty.model.UserDto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,7 +26,6 @@ import java.math.BigDecimal;
         "documentNumber"})
 
 public class CurrencyTransactionEventDto implements Serializable {
-
 
     private BigDecimal amount;
 
