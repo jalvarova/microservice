@@ -10,8 +10,3 @@ spring:
     name: ms-admin-server
   profiles:
     active: ${MS_PROFILE:local}
----
-eureka:
-  client:
-    healthcheck:
-      enabled: true
