@@ -14,7 +14,7 @@ info:
 management:
   endpoints:
     web:
-      base-path: /
+      #base-path: /
       path-mapping:
         prometheus: /metrics
       exposure:

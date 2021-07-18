@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8090}
+  port: ${PORT:8761}
 ---
 spring:
   application:
@@ -8,11 +8,13 @@ spring:
 info:
   project:
     version: 1.0.0
+    name: ms-registry
+    description: Discovery Server Microservice
 ---
 management:
   endpoints:
     web:
-      base-path: /
+      #base-path: /
       path-mapping:
         prometheus: /metrics
       exposure:
@@ -24,13 +26,17 @@ management:
         exclude:
 ---
 eureka:
+  instance:
+    hostname: localhost
+    statusPageUrlPath: http://localhost/info
+    healthCheckUrlPath: http://localhost/health
   client:
     register-with-eureka: false
     fetch-registry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 ---
 logging:
   level:
-    com:
-      netflix:
-        eureka: OFF
-        discovery: OFF
+    com.netflix.eureka: OFF
+    com.netflix.discovery: OFF

@@ -1,17 +1,17 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:9000}
   servlet:
-    context-path: ms-gateway
+    context-path: ms-admin-server
 ---
 spring:
   application:
-    name: ms-gateway
+    name: ms-admin-server
 ---
 info:
   project:
     version: 1.0.0
-    name: ms-gateway
-    description: Microservice Api Gateway
+    name: ms-admin-server
+    description: Microservice Server Admin
 ---
 management:
   endpoint:
@@ -27,7 +27,7 @@ management:
         enabled: true
   endpoints:
     web:
-      #base-path: /ms-gateway
+      base-path: /ms-admin-server
       path-mapping:
         prometheus: /metrics
       exposure:
@@ -38,26 +38,8 @@ management:
           - info
           - metrics
           - prometheus
+          - instances
         exclude:
----
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-#        - id: id-ms-customers
-#          uri: lb://MS-GESTION-INSTRUCTOR
-#          predicates:
-#            - Path=/api/v1/customers/**
-#          filters:
-#            - RewritePath=/ms-instructor/(?<path>.*), /$\{path}
-        - id: id-albumes
-          uri: https://jsonplaceholder.typicode.com/albums
-          predicates:
-            - Path=/albums
 ---
 eureka:
   client:

@@ -1,0 +1,72 @@
+server:
+  port: ${PORT:9545}
+---
+spring:
+  application:
+    name: ms-mediator-event
+---
+info:
+  project:
+    version: 1.0.0
+    name: ms-mediator-event
+    description: Microservice Api Event Mediator
+---
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+#      base-path: /ms-mediator-event
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - actuator
+          - health
+          - info
+          - metrics
+          - prometheus
+          - instances
+        exclude:
+---
+eureka:
+  client:
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    eureka-server-connect-timeout-seconds: 30
+    registryFetchIntervalSeconds: 10
+    wait-time-in-ms-when-sync-empty: 3
+  instance:
+    preferIpAddress: false
+---
+spring:
+  boot:
+    admin:
+      client:
+        instance:
+          health-url: /ms-mediator-event/health
+---
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USR:user}
+    password: ${RABBITMQ_PWD:password}
+---
+spring:
+  cloud:
+    gcp:
+      pubsub:
+        project-id: ${PROYECT_ID}
+        credentials:
+          location: 'classpath:/iam-service.json'
+      config:
+        enabled: false

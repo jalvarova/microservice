@@ -8,6 +8,8 @@ spring:
 info:
   project:
     version: 1.0.0
+    name: ms-clients
+    description: Microservice de clientes
 ---
 spring:
   datasource:
@@ -22,19 +24,39 @@ spring:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
 ---
 management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
   endpoints:
     web:
-      base-path: /
+      #base-path: /ms-clients
       path-mapping:
         prometheus: /metrics
       exposure:
         include:
+          - actuator
           - health
           - info
           - metrics
           - prometheus
         exclude:
+---
+eureka:
+  client:
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    eureka-server-connect-timeout-seconds: 30
+    registryFetchIntervalSeconds: 10
+  instance:
+    preferIpAddress: false
