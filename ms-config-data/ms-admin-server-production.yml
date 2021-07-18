@@ -1,7 +1,5 @@
 server:
   port: ${PORT:9000}
-  servlet:
-    context-path: ms-admin-server
 ---
 spring:
   application:
@@ -27,7 +25,7 @@ management:
         enabled: true
   endpoints:
     web:
-      base-path: /ms-admin-server
+      #base-path: /ms-admin-server
       path-mapping:
         prometheus: /metrics
       exposure:
@@ -43,6 +41,8 @@ management:
 ---
 eureka:
   client:
+    healthcheck:
+      enabled: true
     fetch-registry: true
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
