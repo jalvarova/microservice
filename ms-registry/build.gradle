@@ -14,10 +14,13 @@ repositories {
 
 ext {
 	set('springCloudVersion', "2020.0.2")
+	set('springBootAdminVersion', "2.3.1")
 }
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-config-client'
+	implementation 'de.codecentric:spring-boot-admin-starter-client'
+
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -28,6 +31,7 @@ dependencies {
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
 	}
 }
 
