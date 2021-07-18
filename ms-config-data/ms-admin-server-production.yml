@@ -1,7 +1,7 @@
 server:
   port: ${PORT:9000}
-  servlet:
-    context-path: ms-admin-server
+#  servlet:
+#    context-path: ms-admin-server
 ---
 spring:
   application:
