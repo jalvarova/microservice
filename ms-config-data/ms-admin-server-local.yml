@@ -27,7 +27,7 @@ management:
         enabled: true
   endpoints:
     web:
-      base-path: /ms-admin-server
+      #base-path: /ms-admin-server
       path-mapping:
         prometheus: /metrics
       exposure:
