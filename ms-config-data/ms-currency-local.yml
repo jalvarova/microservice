@@ -13,10 +13,10 @@ info:
 ---
 spring:
   datasource:
-    url: ${HOST_DATABASE:jdbc:postgresql://localhost:7432/currencydb}
+    url: ${DATABASE:jdbc:postgresql://localhost:7432/currencydb}
     driverClassName: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: ${USER:postgres}
+    password: ${USER:postgres}
     #data: "classpath:init-data.sql"
     #schema: "classpath:create_schema.sql"
     initialization-mode: always
