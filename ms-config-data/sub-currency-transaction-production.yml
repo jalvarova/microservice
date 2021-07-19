@@ -1,0 +1,131 @@
+server:
+  port: ${PORT:9094}
+---
+spring:
+  application:
+    name: sub-currency-transaction
+---
+info:
+  project:
+    version: 1.0.0
+    name: sub-currency-transaction
+    description: Microservice Consumer message
+---
+spring:
+  datasource:
+    url: ${DATABASE:jdbc:postgresql://localhost:7432/currencydb}
+    driverClassName: org.postgresql.Driver
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PWD:postgres}
+    initialization-mode: always
+---
+spring:
+  jpa:
+    scan: org.hta.domain.entity
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+---
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      #base-path: /ms-currency
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - actuator
+          - health
+          - info
+          - metrics
+          - prometheus
+        exclude:
+---
+eureka:
+  client:
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    eureka-server-connect-timeout-seconds: 30
+    registryFetchIntervalSeconds: 10
+  instance:
+    preferIpAddress: false
+---
+opentracing:
+  jaeger:
+    service-name: sub-currency-transaction
+    enabled: true
+    udp-sender:
+      host: localhost
+      port: 6831
+    log-spans: true
+---
+spring:
+  cloud:
+    stream:
+      gcp:
+        pubsub:
+          bindings:
+            eventTransactionPusbSub-in-0:
+              consumer:
+                auto-create-resources: false
+            eventTransactionRabbitmq-in-0:
+              consumer:
+                auto-create-resources: false
+      rabbit:
+        bindings:
+          product-rabbit:
+            consumer:
+              bind-queue: false
+              acknowledge-mode: AUTO
+      function:
+        definition: eventTransactionPusbSub;eventTransactionRabbitmq
+      bindings:
+        eventTransactionPusbSub-in-0:
+          destination: hta.currency-exchange.currency
+          group: hta.currency-exchange.currency.transaction.subscriber
+          binder: local_pubsub
+          consumer:
+            auto-startup: true
+            max-attempts: 3
+        eventTransactionRabbitmq-in-0:
+          destination: hta.currency-exchange.currency
+          group: hta.currency-exchange.currency.transaction.subscriber
+          binder: local_rabbit
+          consumer:
+            auto-startup: true
+            max-attempts: 3
+      binders:
+        local_rabbit:
+          type: rabbit
+          default-candidate: false
+        local_pubsub:
+          type: pubsub
+          default-candidate: false
+---
+spring:
+  cloud:
+    gcp:
+      pubsub:
+        project-id:  "${GOOGLE_PROJECT_ID}"
+        credentials:
+          location: 'classpath:${GOOGLE_CREDENTIALS}'
+      config:
+        enabled: false
+---
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USR:user}
+    password: ${RABBITMQ_PWD:password}
