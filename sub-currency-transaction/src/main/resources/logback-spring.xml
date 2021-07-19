@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--    <property name="LOGS" value="d:/tmp/elk/" />-->
+    <!--	<property scope="context" name="logger.type" value="ms-elk-demo-1" />-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                <!--  %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n  %X{correlationId} -->
+                ${logger.type} %d %p %C{1} %M:%L [%t] %m%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!--    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+    <!--        <file>${LOGS}/spring-boot-elk-demo-1.log</file>-->
+    <!--        <encoder-->
+    <!--            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+    <!--            <Pattern>-->
+    <!--            	&lt;!&ndash; %d %p %C{1.} [%t] %m%n &ndash;&gt;-->
+    <!--            	${logger.type} %d %p %C{1} %M:%L [%t] %m%n-->
+    <!--            </Pattern>-->
+    <!--        </encoder>-->
+
+    <!--        <rollingPolicy-->
+    <!--            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+    <!--            &lt;!&ndash; rollover daily and when the file reaches 10 MegaBytes &ndash;&gt;-->
+    <!--            <fileNamePattern>${LOGS}archivo/spring-boot-elk-demo-1%d{yyyy-MM}.%i.log-->
+    <!--            </fileNamePattern>-->
+    <!--            <timeBasedFileNamingAndTriggeringPolicy-->
+    <!--                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+    <!--                <maxFileSize>10MB</maxFileSize>-->
+    <!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+    <!--        </rollingPolicy>-->
+    <!--    </appender>-->
+    <!--    <include resource="org/springframework/boot/logging/logback/base.xml" />-->
+    <!--    <contextName>ms-identity</contextName>-->
+
+    <!--    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+    <!--        <param name="Encoding" value="UTF-8"/>-->
+    <!--        <destination>127.0.0.1:5044</destination>-->
+    <!--        <keepAliveDuration>5 minutes</keepAliveDuration>-->
+    <!--&lt;!&ndash;        <encoder class="net.logstash.logback.encoder.LogstashEncoder">&ndash;&gt;-->
+    <!--&lt;!&ndash;            <customFields>{"app_name":"ms-identity", "app_port": "YourPort","app_version": "1.0.0"}</customFields>&ndash;&gt;-->
+    <!--&lt;!&ndash;        </encoder>&ndash;&gt;-->
+    <!--        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
+    <!--            <providers>-->
+    <!--                <timestamp/>-->
+    <!--                <mdc/>-->
+    <!--                <context/>-->
+    <!--                <version/>-->
+    <!--                <logLevel/>-->
+    <!--                <loggerName/>-->
+    <!--                <pattern>-->
+    <!--                    <pattern>-->
+    <!--                        {-->
+    <!--                        "api-name": "ms-identity",-->
+    <!--                        "api-version": "1.0.0"-->
+    <!--                        }-->
+    <!--                    </pattern>-->
+    <!--                </pattern>-->
+    <!--                <threadName/>-->
+    <!--                <message/>-->
+    <!--                <logstashMarkers/>-->
+    <!--                <arguments/>-->
+    <!--                <stackTrace/>-->
+    <!--            </providers>-->
+    <!--        </encoder>-->
+    <!--    </appender>-->
+
+    <!-- LOG everything at INFO level -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <!--        <appender-ref ref="logstash" />-->
+    </root>
+
+</configuration>
