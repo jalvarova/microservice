@@ -37,13 +37,16 @@ public class UserController {
 
     @DeleteMapping(value = "/users/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteUsers(@PathVariable(name = "username") String username) throws DomainException {
-
         return ResponseEntity.ok(userService.delete(username));
     }
 
     @GetMapping(value = "/users/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getUsersByUserName(@PathVariable(name = "username") String username) throws DomainException {
-
         return ResponseEntity.ok(userService.findByUserName(username));
+    }
+
+    @GetMapping(value = "/users/{documentNumber}/customer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUsersByDocumentNumber(@PathVariable(name = "documentNumber") String documentNumber) throws DomainException {
+        return ResponseEntity.ok(userService.findByDocumentNumber(documentNumber));
     }
 }

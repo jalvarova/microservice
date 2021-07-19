@@ -13,6 +13,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByUsername(String login);
 
+    Optional<User> findByDocumentNumber(String documentNumber);
+
     @Query(value = "select u from User u")
     List<User> findUsers();
 

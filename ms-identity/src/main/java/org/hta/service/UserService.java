@@ -127,4 +127,16 @@ public class UserService implements IUserService<UserDTO> {
                 .findFirst()
                 .or(() -> Optional.of(new UserDTO()));
     }
+
+    @LogTime
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDTO> findByDocumentNumber(String documentNumber) throws DomainException {
+        return userRepository
+                .findByDocumentNumber(documentNumber)
+                .stream()
+                .map(UserMapper.entityToApi)
+                .findFirst()
+                .or(() -> Optional.of(new UserDTO()));
+    }
 }

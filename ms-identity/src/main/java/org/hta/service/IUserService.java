@@ -24,4 +24,6 @@ public interface IUserService<T> {
 
         Optional<T> findByUserName(String userName) throws DomainException;
 
+        Optional<T> findByDocumentNumber(String documentNumber) throws DomainException;
+
 }

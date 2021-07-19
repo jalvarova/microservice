@@ -15,6 +15,7 @@ CREATE TABLE hta.user(
   name VARCHAR(200) NOT NULL,
   last_name VARCHAR(200) NOT NULL,
   username VARCHAR(255) NOT NULL,
+  document_number VARCHAR(20) NOT NULL,
   password TEXT NOT NULL,
   enabled BOOLEAN DEFAULT TRUE,
   is_blocked BOOLEAN DEFAULT FALSE,

@@ -34,6 +34,9 @@ public class User extends EntityBase implements UserDetails {
     @Column(unique = true, name = "username", nullable = false)
     private String username;
 
+    @Column(unique = true, name = "document_number", nullable = false)
+    private String documentNumber;
+
     @Column(name = "password", nullable = false)
     private String password;
 
