@@ -68,11 +68,10 @@ public class CurrencyExchangeService implements ICurrencyExchangeService {
     @Override
     public Observable<CurrencyTransactionDto> getAllCurrencyTransaction(
             String authorization,
-            String username,
             String documentNumber) {
 
         return Observable.zip(
-                identityFeign.identityApí(authorization, username).toObservable(),
+                identityFeign.identityApí(authorization, documentNumber).toObservable(),
                 customerFeign.customerApí(documentNumber).toObservable(),
                 Observable.fromIterable(transactionRepository.findByAllDocumentNumber(documentNumber)),
                 Single.just(codeNamesService.findAll()).toObservable(),
@@ -83,7 +82,7 @@ public class CurrencyExchangeService implements ICurrencyExchangeService {
     @Override
     public Single<CurrencyOperationDto> getCurrencyExchangeTransaction(String operation, String documentNumber, String authorization) {
         return Single.zip(Single.just(transactionRepository.findByOperationNumber(operation)),
-                identityFeign.identityApí(authorization, "gaguinaga"),
+                identityFeign.identityApí(authorization, documentNumber),
                 customerFeign.customerApí(documentNumber),
                 Single.just(codeNamesService.findAll()),
                 toApiOperation);

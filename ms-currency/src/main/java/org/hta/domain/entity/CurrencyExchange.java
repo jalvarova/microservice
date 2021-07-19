@@ -15,8 +15,9 @@ import java.math.BigDecimal;
 @Entity
 public class CurrencyExchange extends EntityBase {
 
-    @GeneratedValue
     @Id
+    @Column(name = "currency_exchange_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "amount_exchange_rate", precision = 11, scale = 5)

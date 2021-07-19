@@ -13,8 +13,8 @@ public class IdentityFeignImpl {
     @Autowired
     private IdentityFeignClient identityFeignClient;
 
-    public Single<UserDto> identityApí(String authorization, String username) {
-        return Single.just(identityFeignClient.callIdentityApi(authorization, username));
+    public Single<UserDto> identityApí(String authorization, String documentNumber) {
+        return Single.just(identityFeignClient.callIdentityApi(authorization, documentNumber));
     }
 
 

@@ -41,8 +41,7 @@ public class CurrencyExchangeController {
             HttpServletRequest request,
             @PathVariable("documentNumber") String documentNumber) {
         String authorization = request.getHeader("Authorization");
-        String username = request.getHeader("username");
-        return currencyExchangeService.getAllCurrencyTransaction(authorization, username, documentNumber);
+        return currencyExchangeService.getAllCurrencyTransaction(authorization, documentNumber);
     }
 
     @GetMapping(

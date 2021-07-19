@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface IdentityFeignClient {
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{username}")
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{documentNumber}/customer")
     UserDto callIdentityApi(
             @RequestHeader(value = "Authorization") String authorization,
-            @PathVariable("username") String username
+            @PathVariable("documentNumber") String documentNumber
     );
 }

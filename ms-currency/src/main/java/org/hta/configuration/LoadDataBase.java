@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Configuration
+@Configuration
 @Slf4j
 class LoadDataBase {
 
@@ -58,7 +58,7 @@ class LoadDataBase {
         currencyExchanges.add(new CurrencyExchange(BigDecimal.valueOf(0.0316777), "PEN", "JPY"));
     }
 
-    //@Bean
+    @Bean
     CommandLineRunner initDatabase(CurrencyCodeNamesRepository codeNamesRepository, CurrencyExchangeRepository repository) {
         return args -> {
             log.info("Preloading  Currency Names " + codeNamesRepository.saveAll(currencyCodeNames));

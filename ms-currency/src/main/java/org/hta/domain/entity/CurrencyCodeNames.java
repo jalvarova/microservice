@@ -15,8 +15,9 @@ import javax.validation.constraints.Size;
 @Table(name = "currency_code_names", schema = "hta")
 public class CurrencyCodeNames extends EntityBase {
 
-    @GeneratedValue
     @Id
+    @Column(name = "currency_code_names_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(min = 1, max = 4)

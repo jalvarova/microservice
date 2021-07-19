@@ -15,7 +15,7 @@ public interface ICurrencyExchangeService {
 
     Single<List<CurrencyExchangeDto>> getAllCurrencyExchange();
 
-    Observable<CurrencyTransactionDto> getAllCurrencyTransaction(String authorization, String username, String documentNumber);
+    Observable<CurrencyTransactionDto> getAllCurrencyTransaction(String authorization, String documentNumber);
 
     Single<CurrencyOperationDto> getCurrencyExchangeTransaction(String operation, String documentNumber, String authorization);
 
