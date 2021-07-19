@@ -16,9 +16,9 @@ import java.math.BigInteger;
 @Entity
 public class CurrencyTransaction extends EntityBase {
 
-
-    @GeneratedValue
     @Id
+    @Column(name = "currency_transaction_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "currency_origin")
