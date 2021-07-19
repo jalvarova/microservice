@@ -24,8 +24,8 @@ public class RabbitMQOperation extends BrokerComplements implements BrokerOperat
 
     @Override
     public void publish(Metadata metadata, String s) {
-        log.info("Begin publishSendMessage " + subscriber(metadata) + " and routing key " + routingKey(metadata));
-        rabbitTemplate.convertAndSend(topic(metadata), routingKey(metadata), s);
+        log.info("routingKey(metadata) Begin publishSendMessage " + subscriber(metadata) + " and routing key " + routingKey(metadata));
+        rabbitTemplate.convertAndSend(topic(metadata), "#", s);
         log.info("End publishSendMessage");
 
     }
