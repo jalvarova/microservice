@@ -46,6 +46,7 @@ eureka:
     healthcheck:
       enabled: true
     fetch-registry: true
+    register-with-eureka: true
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
     eureka-server-connect-timeout-seconds: 30

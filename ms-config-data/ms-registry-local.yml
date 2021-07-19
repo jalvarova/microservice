@@ -27,9 +27,9 @@ management:
 ---
 eureka:
   instance:
-    hostname: localhost
-    statusPageUrlPath: http://localhost/info
-    healthCheckUrlPath: http://localhost/health
+    hostname: ms-registry
+    statusPageUrlPath: http://ms-registry/info
+    healthCheckUrlPath: http://ms-registry/health
   client:
     register-with-eureka: false
     fetch-registry: false
