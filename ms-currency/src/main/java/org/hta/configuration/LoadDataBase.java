@@ -58,7 +58,7 @@ class LoadDataBase {
         currencyExchanges.add(new CurrencyExchange(BigDecimal.valueOf(0.0316777), "PEN", "JPY"));
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner initDatabase(CurrencyCodeNamesRepository codeNamesRepository, CurrencyExchangeRepository repository) {
         return args -> {
             log.info("Preloading  Currency Names " + codeNamesRepository.saveAll(currencyCodeNames));

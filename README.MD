@@ -21,6 +21,22 @@ curl -G https://start.spring.io/starter.zip -d dependencies=validation,devtools,
 curl -G https://start.spring.io/starter.zip -d dependencies=security,validation,devtools,lombok,actuator,prometheus,web,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-identity -d name=ms-identity -d applicationName=Identity -o ms-identity.zip
 ```
 
+
+#### Generated Spring Currency
+
+```bash
+curl -G https://start.spring.io/starter.zip -d dependencies=security,validation,devtools,lombok,actuator,prometheus,web,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-currency -d name=ms-currency -d applicationName=Currency -o ms-currency.zip
+```
+
+
+#### Generated Spring subscriber
+
+```bash
+curl -G https://start.spring.io/starter.zip -d dependencies=cloud-starter,cloud-stream,cloud-gcp-pubsub,validation,devtools,lombok,actuator,prometheus,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=sub-currency-transaction -d name=sub-currency-transaction -d applicationName=CunsumerTransactionApplication -o sub-currency-transaction.zip
+```
+
+
+
 #### Generated Spring Cli Service Cross
 
 ```bash
@@ -28,9 +44,29 @@ curl -G https://start.spring.io/starter.zip -d dependencies=cloud-config-server,
 ```
 
 ```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=devtools,actuator,prometheus,cloud-eureka-server -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-registrY -d name=ms-registry -d applicationName=RegistryApplication -o ms-registry.zip
+curl -G https://start.spring.io/starter.zip -d dependencies=devtools,actuator,prometheus,cloud-eureka-server,cloud-config-client -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-registry -d name=ms-registry -d applicationName=RegistryApplication -o ms-registry.zip
 ```
 
+```bash
+curl -G https://start.spring.io/starter.zip -d dependencies=devtools,actuator,prometheus,cloud-gateway,cloud-config-client -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-registry -d name=ms-registry -d applicationName=RegistryApplication -o ms-registry.zip
+```
+
+```bash
+curl -G https://start.spring.io/starter.zip -d dependencies=cloud-eureka,cloud-gcp-pubsub,amqp,cloud-config-client,devtools,actuator,prometheus -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-mediator-event -d name=ms-mediator-event -d applicationName=MediatorEventApplication -o ms-mediator-event.zip
+```
+
+```bash
+curl -G https://start.spring.io/starter.zip -d dependencies=codecentric-spring-boot-admin-server,actuator,prometheus -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-admin-server -d name=ms-admin-server -d applicationName=AdminServerApplication -o ms-admin-server.zip
+```
+
+#Infra
+
+### Run Docker rabbit local
+
+```docker
+docker run -d --hostname local-rabbitmq --name local-rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+```
+docker network create -d bridge microservice
 
 ## Framework developer
 
