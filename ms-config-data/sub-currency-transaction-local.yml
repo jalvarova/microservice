@@ -129,3 +129,18 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USR:user}
     password: ${RABBITMQ_PWD:password}
+---
+event:
+  uri: ${URI_EVENT:http://localhost:9545/ms-mediator-event/api/v1}
+  app: hta
+  origin: transaction
+  destination: messaging
+  domain: currency-exchange
+---
+feign:
+  client:
+    config:
+      event-service:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
