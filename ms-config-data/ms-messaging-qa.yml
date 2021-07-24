@@ -36,7 +36,7 @@ management:
         exclude:
 ---
 sendgrid:
-  queueName: demo_q
+  queueName: hta.currency-exchange.transaction.messaging.subscriber
   from: ${EMAIL_FROM}
   reply: ${EMAIL_REPLAY}
   subject: "Envio de operacion de currency transaction"
