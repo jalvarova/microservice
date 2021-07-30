@@ -13,10 +13,10 @@ info:
 ---
 spring:
   datasource:
-    url: ${HOST_DATABASE:jdbc:postgresql://localhost:7432/currencydb}
+    url: ${DATABASE:jdbc:postgresql://localhost:7432/currencydb}
     driverClassName: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
     #data: "classpath:init-data.sql"
     #schema: "classpath:create_schema.sql"
     initialization-mode: always
@@ -26,7 +26,7 @@ spring:
     scan: org.hta.domain.entity
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
 ---
 management:
@@ -54,9 +54,9 @@ management:
         exclude:
 ---
 identity:
-  uri: http://localhost:9093/ms-identity/api/v1/
+  uri: ${URI_IDENTITY:http://localhost:9093/ms-identity/api/v1/}
 customers:
-  uri: http://localhost:9090/ms-clients/api/v1/
+  uri: ${URI_CUSTOMER:http://localhost:9090/ms-clients/api/v1/}
 ---
 feign:
   client:
@@ -88,3 +88,12 @@ opentracing:
       host: localhost
       port: 6831
     log-spans: true
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
