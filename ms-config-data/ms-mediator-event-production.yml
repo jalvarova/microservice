@@ -23,7 +23,7 @@ management:
         enabled: true
   endpoints:
     web:
-#      base-path: /ms-mediator-event
+      #      base-path: /ms-mediator-event
       path-mapping:
         prometheus: /metrics
       exposure:
@@ -65,8 +65,17 @@ spring:
   cloud:
     gcp:
       pubsub:
-        project-id: ${PROYECT_ID}
+        project-id: ${GOOGLE_PROJECT_ID}
         credentials:
-          location: 'classpath:/iam-service.json'
+          location: 'classpath:${GOOGLE_CREDENTIALS:/iam-service.json}'
       config:
         enabled: false
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s

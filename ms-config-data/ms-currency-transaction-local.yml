@@ -15,8 +15,8 @@ spring:
   datasource:
     url: ${DATABASE:jdbc:postgresql://localhost:7432/currencydb}
     driverClassName: org.postgresql.Driver
-    username: ${DATABASE_USER:postgres}
-    password: ${DATABASE_PWD:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
     initialization-mode: always
 ---
 spring:
@@ -84,3 +84,12 @@ opentracing:
       host: localhost
       port: 6831
     log-spans: true
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
