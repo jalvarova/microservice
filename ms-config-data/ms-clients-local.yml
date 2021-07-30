@@ -15,8 +15,8 @@ spring:
   datasource:
     url: ${DATABASE:jdbc:postgresql://localhost:7432/clientdb}
     driverClassName: org.postgresql.Driver
-    username: ${DATABASE_USER:postgres}
-    password: ${DATABASE_PWD:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
     data: "classpath:init-data.sql"
     #schema: "classpath:create_schema.sql"
     initialization-mode: always
@@ -60,3 +60,12 @@ eureka:
     registryFetchIntervalSeconds: 10
   instance:
     preferIpAddress: false
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
