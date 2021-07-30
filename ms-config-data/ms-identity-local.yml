@@ -28,9 +28,9 @@ spring:
     show-sql: true
 ---
 management:
-  health:
-    show-details: always
   endpoint:
+    health:
+      show-details: always
     prometheus:
       enabled: true
     metrics:
