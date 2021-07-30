@@ -70,7 +70,7 @@ spring:
       pubsub:
         project-id: ${GOOGLE_PROJECT_ID}
         credentials:
-          location: 'classpath:${GOOGLE_CREDENTIALS:/iam-service.json}'
+          location: 'classpath:${GOOGLE_CREDENTIALS:/iam.json}'
       config:
         enabled: false
 ---
