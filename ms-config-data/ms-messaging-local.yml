@@ -8,9 +8,9 @@ info:
     description: Microservice de clientes
 ---
 management:
-  health:
-    show-details: always
   endpoint:
+    health:
+      show-details: always
     prometheus:
       enabled: true
     metrics:
