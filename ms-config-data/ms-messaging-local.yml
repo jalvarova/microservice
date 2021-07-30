@@ -27,7 +27,8 @@ management:
       path-mapping:
         prometheus: /metrics
       exposure:
-        include: *
+        include:
+          - *
         exclude:
 ---
 sendgrid:
