@@ -8,6 +8,8 @@ info:
     description: Microservice de clientes
 ---
 management:
+  health:
+    show-details: always
   endpoint:
     prometheus:
       enabled: true
@@ -71,3 +73,12 @@ spring:
     mongodb:
       uri: ${MONGO_URI:mongodb://localhost:27017}
       database: ${MONGO_DATABASE:messagingdb}
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
