@@ -16,7 +16,7 @@ spring:
     url: ${DATABASE:jdbc:postgresql://localhost:7432/rbacdb}
     driverClassName: org.postgresql.Driver
     username: ${DB_USER:postgres}
-    password: ${DB_PWD:postgres}
+    password: ${DB_PASS:postgres}
     data: "classpath:init-data.sql"
     #schema: "classpath:create_schema.sql"
     initialization-mode: always
