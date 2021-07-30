@@ -33,7 +33,6 @@ management:
           - info
           - metrics
           - prometheus
-          - instances
         exclude:
 ---
 eureka:
