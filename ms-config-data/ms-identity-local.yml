@@ -76,7 +76,7 @@ opentracing:
     service-name: ms-identity
     enabled: true
     udp-sender:
-      host: localhost
+      host: S{HOST_TRACE:localhost}
       port: 6831
     log-spans: true
 ---
