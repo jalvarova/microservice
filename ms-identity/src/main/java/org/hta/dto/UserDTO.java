@@ -35,6 +35,10 @@ public class UserDTO implements Serializable {
     @NotNull(message = "lastName It can not be null")
     private String password;
 
+    @NotEmpty(message = "documentNumber It can not be null")
+    @NotNull(message = "documentNumber It can not be null")
+    private String documentNumber;
+
     @NotNull(message = "roles It can not be null")
     private List<String> roles;
 

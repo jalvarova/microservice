@@ -18,7 +18,7 @@ import java.util.Collections;
 class LoadDataBase {
 
 
-    @Bean
+    //@Bean
     CommandLineRunner initDatabase(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
             Role roleAdmin = roleRepository.findByRoleName("ADMIN");

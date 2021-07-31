@@ -84,7 +84,7 @@ public class UserService implements IUserService<UserDTO> {
     public Optional<UserDTO> update(UserDTO user) throws DomainException {
         return userRepository
                 .findByUsername(user.getUsername())
-                .map(UserMapper.apiToEntityUpdate)
+                .map(userFound -> UserMapper.apiToEntityUpdate.apply(user, userFound))
                 .map(userRepository::save)
                 .map(UserMapper.entityToApi)
                 .or(() -> Optional.of(new UserDTO()));

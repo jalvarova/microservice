@@ -1,5 +1,6 @@
 package org.hta.exceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -218,6 +219,27 @@ public class ExceptionHandlerAdvice {
                         .build();
 
         return new ResponseEntity<>(errorHandler, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ResponseStatus(UNAUTHORIZED)
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    public ResponseEntity<?> responseToken(ExpiredJwtException ex, HttpServletRequest req) {
+        log.error("Exception error handler " + "responseToken" + " error http : " + UNAUTHORIZED);
+
+        ErrorResponse errorHandler =
+                ErrorResponse
+                        .builder()
+                        .message("Token not authorized")
+                        .exception(ex.getMessage())
+                        .error("ERR-202")
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .time(LocalDateTime.now())
+                        .path(req.getServletPath())
+                        .method(req.getMethod())
+                        .build();
+
+        return new ResponseEntity<>(errorHandler, HttpStatus.UNAUTHORIZED);
 
     }
 

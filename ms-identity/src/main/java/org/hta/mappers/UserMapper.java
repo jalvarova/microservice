@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
@@ -37,6 +38,7 @@ public interface UserMapper {
                 .username(entity.getUsername())
                 .name(entity.getName())
                 .lastName(entity.getLastName())
+                .documentNumber(entity.getDocumentNumber())
                 .permission(permissions)
                 .roles(roleNames)
                 .build();
@@ -49,14 +51,16 @@ public interface UserMapper {
                 .username(api.getUsername())
                 .name(api.getName())
                 .lastName(api.getLastName())
+                .documentNumber(api.getDocumentNumber())
                 .password(encoder.encode(api.getPassword()))
                 .enabled(Boolean.TRUE)
                 .isBlocked(Boolean.FALSE)
                 .build();
     };
-    Function<User, User> apiToEntityUpdate = (User api) -> User
-            .builder()
-            .name(api.getName())
-            .lastName(api.getLastName())
-            .build();
+    BiFunction<UserDTO, User, User> apiToEntityUpdate = (UserDTO userDTO, User api) -> {
+        api.setName(userDTO.getName());
+        api.setName(userDTO.getLastName());
+        api.setDocumentNumber(userDTO.getDocumentNumber());
+        return api;
+    };
 }

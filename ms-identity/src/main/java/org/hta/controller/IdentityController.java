@@ -72,6 +72,7 @@ public class IdentityController {
         final JwtResponse jwtResponse = JwtResponse
                 .builder()
                 .username(user.getUsername())
+                .documentNumber(user.getDocumentNumber())
                 .nameComplete(user.getName().concat(" ").concat(user.getLastName()))
                 .permission(permissions)
                 .roles(roleNames)
