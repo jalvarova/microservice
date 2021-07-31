@@ -85,7 +85,7 @@ opentracing:
     service-name: ms-currency
     enabled: true
     udp-sender:
-      host: S{HOST_TRACE:localhost}
+      host: ${HOST_TRACE:localhost}
       port: 6831
     log-spans: true
 ---
