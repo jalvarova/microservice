@@ -9,7 +9,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
-@EnableDiscoveryClient
 @EnableJpaRepositories(basePackageClasses = {ClientRepository.class, ContactRepository.class, DocumentRepository.class})
 @SpringBootApplication
 public class MsClientsApplication {
