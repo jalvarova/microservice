@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.domain.CurrencyExchangeRepository;
 import org.hta.domain.CurrencyTransactionRepository;
 import org.hta.domain.entity.CurrencyExchange;
@@ -13,8 +14,8 @@ import org.hta.dto.CurrencyOperationDto;
 import org.hta.dto.CurrencyTransactionDto;
 import org.hta.service.ICurrencyCodeNamesService;
 import org.hta.service.ICurrencyExchangeService;
-import org.hta.thirtyparty.CustomerFeignImpl;
-import org.hta.thirtyparty.IdentityFeignImpl;
+import org.hta.thirtyparty.CustomerApi;
+import org.hta.thirtyparty.IdentityApi;
 import org.hta.util.CurrencyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,15 +35,16 @@ public class CurrencyExchangeService implements ICurrencyExchangeService {
     private ICurrencyCodeNamesService codeNamesService;
 
     @Autowired
-    private IdentityFeignImpl identityFeign;
+    private IdentityApi identityFeign;
 
     @Autowired
-    private CustomerFeignImpl customerFeign;
+    private CustomerApi customerFeign;
 
     @Autowired
     private CurrencyTransactionRepository transactionRepository;
 
     @Override
+    @TraceSpan(key = "apply")
     public Single<CurrencyExchangeRsDto> applyExchangeRate(CurrencyExchangeDto dto) {
         String currencyOrigin = dto.getCurrencyOrigin().name();
         String currencyDestination = dto.getCurrencyDestination().name();
@@ -56,6 +58,7 @@ public class CurrencyExchangeService implements ICurrencyExchangeService {
 
 
     @Override
+    @TraceSpan(key = "get-currency")
     public Single<List<CurrencyExchangeDto>> getAllCurrencyExchange() {
         return Single.just(currencyExchangeRepository.findAll())
                 .subscribeOn(Schedulers.io())
@@ -66,13 +69,14 @@ public class CurrencyExchangeService implements ICurrencyExchangeService {
     }
 
     @Override
+    @TraceSpan(key = "get-all-transaction")
     public Observable<CurrencyTransactionDto> getAllCurrencyTransaction(
             String authorization,
             String documentNumber) {
 
         return Observable.zip(
                 identityFeign.identityApí(authorization, documentNumber).toObservable(),
-                customerFeign.customerApí(documentNumber).toObservable(),
+                customerFeign.customerApí(authorization, documentNumber).toObservable(),
                 Observable.fromIterable(transactionRepository.findByAllDocumentNumber(documentNumber)),
                 Single.just(codeNamesService.findAll()).toObservable(),
                 toApiTransaction)
@@ -80,10 +84,12 @@ public class CurrencyExchangeService implements ICurrencyExchangeService {
     }
 
     @Override
+    @TraceSpan(key = "get-transaction")
     public Single<CurrencyOperationDto> getCurrencyExchangeTransaction(String operation, String documentNumber, String authorization) {
-        return Single.zip(Single.just(transactionRepository.findByOperationNumber(operation)),
+        return Single.zip(
+                Single.fromCallable(() -> (transactionRepository.findByOperationNumber(operation))),
                 identityFeign.identityApí(authorization, documentNumber),
-                customerFeign.customerApí(documentNumber),
+                customerFeign.customerApí(authorization, documentNumber),
                 Single.just(codeNamesService.findAll()),
                 toApiOperation);
     }

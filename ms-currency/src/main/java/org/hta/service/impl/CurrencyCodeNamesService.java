@@ -3,6 +3,7 @@ package org.hta.service.impl;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.domain.CurrencyCodeNamesRepository;
 import org.hta.domain.entity.CurrencyCodeNames;
 import org.hta.service.ICurrencyCodeNamesService;
@@ -21,6 +22,7 @@ public class CurrencyCodeNamesService implements ICurrencyCodeNamesService {
     
     @Override
     @Cacheable("names")
+    @TraceSpan(key = "code-names")
     public List<CurrencyCodeNames> findAll() {
         log.info("Find all currency code names");
         return Observable

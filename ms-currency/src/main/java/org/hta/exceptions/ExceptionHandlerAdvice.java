@@ -1,6 +1,5 @@
 package org.hta.exceptions;
 
-import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -15,13 +14,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -104,7 +103,8 @@ public class ExceptionHandlerAdvice {
 
         log.error("Exception error handler " + "handleMethodArgumentNotValid" + " error http : " + BAD_REQUEST);
 
-        List<ErrorDetail> errorDetails = ex.getFieldErrors()
+        List<ErrorDetail> errorDetails = ex.getBindingResult()
+                .getFieldErrors()
                 .stream()
                 .map(error -> ErrorDetail
                         .builder()
@@ -272,13 +272,15 @@ public class ExceptionHandlerAdvice {
                         .method(req.getMethod())
                         .build();
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorHandler);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorHandler);
     }
 
     @ResponseBody
-    @ExceptionHandler(FeignException.class)
-    public ResponseEntity<ErrorResponse> errorClientFeign(FeignException ex, HttpServletRequest req) {
-        HttpStatus httpStatus = ex.status() < 0 ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.valueOf(ex.status());
+    @ExceptionHandler(WebClientResponseException.class)
+    public ResponseEntity<ErrorResponse> errorClientFeign(WebClientResponseException ex, HttpServletRequest req) {
+        HttpStatus httpStatus = ex.getStatusCode();
         log.error("Exception error handler " + "errorClientFeign" + " error http : " + httpStatus.name());
 
         ErrorResponse errorHandler =

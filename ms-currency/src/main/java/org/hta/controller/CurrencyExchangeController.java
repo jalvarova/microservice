@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -38,9 +37,8 @@ public class CurrencyExchangeController {
             value = "/currency-exchange/{documentNumber}/transaction",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Observable<CurrencyTransactionDto> getTransactionAll(
-            HttpServletRequest request,
+            @RequestHeader("Authorization") String authorization,
             @PathVariable("documentNumber") String documentNumber) {
-        String authorization = request.getHeader("Authorization");
         return currencyExchangeService.getAllCurrencyTransaction(authorization, documentNumber);
     }
 
@@ -48,10 +46,9 @@ public class CurrencyExchangeController {
             value = "/currency-exchange/transaction/{operation}/customer/{documentNumber}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Single<CurrencyOperationDto> getCurrencyExchangeTransaction(
-            HttpServletRequest request,
+            @RequestHeader("Authorization") String authorization,
             @PathVariable("operation") String operation,
             @PathVariable("documentNumber") String documentNumber) {
-        String authorization = request.getHeader("Authorization");
         return currencyExchangeService.getCurrencyExchangeTransaction(operation, documentNumber, authorization);
     }
 

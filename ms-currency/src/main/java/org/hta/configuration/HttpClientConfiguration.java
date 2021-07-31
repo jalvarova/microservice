@@ -1,31 +1,48 @@
 package org.hta.configuration;
 
-import feign.codec.Decoder;
-import feign.codec.Encoder;
-import feign.form.spring.SpringFormEncoder;
-import org.hta.thirtyparty.CustomerFeignClient;
-import org.hta.thirtyparty.IdentityFeignClient;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.cloud.openfeign.support.SpringDecoder;
-import org.springframework.cloud.openfeign.support.SpringEncoder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 
-@EnableFeignClients(basePackageClasses = {CustomerFeignClient.class, IdentityFeignClient.class})
+//@EnableFeignClients(basePackageClasses = {CustomerFeignClient.class, IdentityFeignClient.class})
 @Configuration
 public class HttpClientConfiguration {
 
-    private final ObjectFactory<HttpMessageConverters> messageConverters = HttpMessageConverters::new;
+//    private final ObjectFactory<HttpMessageConverters> messageConverters = HttpMessageConverters::new;
+//
+//    @Bean
+//    public Decoder feignFormDecoder() {
+//        return new SpringDecoder(messageConverters);
+//    }
+//
+//    @Bean
+//    public Encoder feignFormEncoder() {
+//        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+//    }
 
-    @Bean
-    public Decoder feignFormDecoder() {
-        return new SpringDecoder(messageConverters);
+    @Value("${customers.uri}")
+    private String uriCustomer;
+
+
+    @Value("${identity.uri}")
+    private String uriIdentity;
+
+
+    public WebClient customerWebClient() {
+        return WebClient
+                .builder()
+                .baseUrl(uriCustomer)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
     }
 
-    @Bean
-    public Encoder feignFormEncoder() {
-        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+    public WebClient identityWebClient() {
+        return WebClient
+                .builder()
+                .baseUrl(uriIdentity)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
     }
 }
