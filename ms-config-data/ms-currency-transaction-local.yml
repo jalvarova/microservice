@@ -93,3 +93,12 @@ spring:
         enabled: true
         connect-timeout: 30s
         period: 30s
+---
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3
