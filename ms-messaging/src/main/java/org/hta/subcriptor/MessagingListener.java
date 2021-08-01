@@ -1,6 +1,7 @@
 package org.hta.subcriptor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.domain.document.MessagingDocument;
 import org.hta.domain.repository.MessagingRepository;
 import org.hta.subcriptor.transport.CurrencyTransactionEventDto;
@@ -34,8 +35,9 @@ public class MessagingListener {
     @Value("${sendgrid.id}")
     private String templateId;
 
+    @TraceSpan(key = "eventTransactionRabbitmq")
     @RabbitListener(queues = "${sendgrid.queueName}")
-    public void listen(CurrencyTransactionEventDto eventDto) {
+    public void eventTransactionMessaging(CurrencyTransactionEventDto eventDto) {
 
         String payload = jsonToString(eventDto);
 

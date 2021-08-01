@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -83,7 +84,9 @@ public class ExceptionHandlerAdvice {
                 .builder()
                 .message("Error de validation de campos")
                 .error("ERR-400")
+                .errorType(ErrorType.TECHNICAL_ERROR)
                 .status(UNPROCESSABLE_ENTITY)
+                .errorType(ErrorType.BUSINESS_ERROR)
                 .time(LocalDateTime.now())
                 .path(req.getServletPath())
                 .method(req.getMethod())
@@ -115,6 +118,7 @@ public class ExceptionHandlerAdvice {
                         .builder()
                         .method(ex.getMessage())
                         .error("ERR-400")
+                        .errorType(ErrorType.BUSINESS_ERROR)
                         .status(BAD_REQUEST)
                         .time(LocalDateTime.now())
                         .path(req.getServletPath())
@@ -138,6 +142,7 @@ public class ExceptionHandlerAdvice {
                         .message(bodyOfResponse)
                         .exception(ex.getMessage())
                         .error("ERR-501")
+                        .errorType(ErrorType.TECHNICAL_ERROR)
                         .status(CONFLICT)
                         .time(LocalDateTime.now())
                         .path(req.getServletPath())
@@ -167,6 +172,7 @@ public class ExceptionHandlerAdvice {
                         .message(ERROR_GENERIC)
                         .exception(ex.getMessage())
                         .error("ERR-500")
+                        .errorType(ErrorType.TECHNICAL_ERROR)
                         .status(INTERNAL_SERVER_ERROR)
                         .time(LocalDateTime.now())
                         .path(req.getServletPath())
@@ -191,6 +197,7 @@ public class ExceptionHandlerAdvice {
                         .message(ERROR_GENERIC_V2)
                         .exception(ex.getMessage())
                         .error("ERR-502")
+                        .errorType(ErrorType.TECHNICAL_ERROR)
                         .status(INTERNAL_SERVER_ERROR)
                         .time(LocalDateTime.now())
                         .path(req.getServletPath())
@@ -212,6 +219,7 @@ public class ExceptionHandlerAdvice {
                         .message(NOT_FOUND)
                         .exception(ex.getMessage())
                         .error("ERR-202")
+                        .errorType(ErrorType.BUSINESS_ERROR)
                         .status(HttpStatus.NOT_FOUND)
                         .time(LocalDateTime.now())
                         .path(req.getServletPath())
@@ -233,6 +241,7 @@ public class ExceptionHandlerAdvice {
                         .message("User not found or not authorized")
                         .exception(ex.getMessage())
                         .error("ERR-202")
+                        .errorType(ErrorType.BUSINESS_ERROR)
                         .status(HttpStatus.UNAUTHORIZED)
                         .time(LocalDateTime.now())
                         .path(req.getServletPath())
@@ -241,6 +250,30 @@ public class ExceptionHandlerAdvice {
 
         return new ResponseEntity<>(errorHandler, HttpStatus.UNAUTHORIZED);
 
+    }
+
+    @ResponseBody
+    @ExceptionHandler(WebClientResponseException.class)
+    public ResponseEntity<ErrorResponse> errorWebClient(WebClientResponseException ex, HttpServletRequest req) {
+        HttpStatus httpStatus = ex.getStatusCode();
+        log.error("Exception error handler " + "errorWebClient" + " error http : " + httpStatus.name());
+
+        ErrorResponse errorHandler =
+                ErrorResponse
+                        .builder()
+                        .message("Error Client Http")
+                        .exception(ex.getMessage())
+                        .error("ERR-600")
+                        .errorType(ErrorType.TECHNICAL_ERROR)
+                        .status(httpStatus)
+                        .time(LocalDateTime.now())
+                        .path(req.getServletPath())
+                        .method(req.getMethod())
+                        .build();
+
+        return ResponseEntity
+                .status(httpStatus)
+                .body(errorHandler);
     }
 
     @ResponseStatus(INTERNAL_SERVER_ERROR)

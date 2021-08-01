@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder(value = {"message", "error", "exception", "status", "method", "path", "time", "details"})
+@JsonPropertyOrder(value = {"message", "exception", "error", "errorType", "status", "method", "path", "time", "details"})
 public class ErrorResponse {
 
     private String message;
@@ -25,6 +25,8 @@ public class ErrorResponse {
     private String exception;
 
     private String error;
+
+    private ErrorType errorType;
 
     private HttpStatus status;
 

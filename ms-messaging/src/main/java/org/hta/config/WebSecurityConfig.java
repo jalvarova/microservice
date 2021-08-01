@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers(
-                        "/ms-currency/health",
+                        "/ms-messaging/health",
                         "/ms-messaging/info",
                         "/ms-messaging/metrics",
                         "/prometheus",
@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers("*", "/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
