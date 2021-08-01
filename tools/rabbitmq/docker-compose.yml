@@ -1,0 +1,17 @@
+version: "3"
+services:
+  rabbitmq-server:
+    restart: always
+    container_name: rabbitmq-server
+    hostname: rabbitmq-server
+    image: 'rabbitmq:3-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PWD}
+networks:
+  default:
+    external:
+      name: microservice

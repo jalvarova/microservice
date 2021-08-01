@@ -1,0 +1,26 @@
+version: "3"
+services:
+  prometheus:
+    restart: always
+    image: prom/prometheus
+    container_name: 'prometheus'
+    volumes:
+      - ./monitoring/prometheus/:/etc/prometheus/
+    ports:
+      - '9090:9090'
+  grafana:
+    restart: always
+    image: grafana/grafana:5.4.3
+    container_name: 'grafana'
+    ports:
+      - '3000:3000'
+    #    volumes:
+    #      - ./monitoring/grafana/provisioning/:/etc/grafana/provisioning/
+    #    env_file:
+    #      - ./monitoring/grafana/config.monitoring
+    depends_on:
+      - prometheus
+networks:
+  default:
+    external:
+      name: microservice

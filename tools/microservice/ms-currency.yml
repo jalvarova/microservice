@@ -1,0 +1,28 @@
+version: "3"
+services:
+  ms-currency:
+    container_name: 'ms-currency'
+    build:
+      context: ../../ms-currency/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-currency
+      VERSION: 1.0.0
+      PORT: 9094
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      URI_IDENTITY: http://ms-identity:9093/ms-identity/api/v1/
+      URI_CUSTOMER: http://ms-clients:9090/ms-clients/api/v1/
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+    ports:
+      - '9094:9094'
+networks:
+  default:
+    external:
+      name: microservice

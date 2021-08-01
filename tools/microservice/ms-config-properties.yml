@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+  ms-config-properties:
+    container_name: 'ms-config-properties'
+    build:
+      context: ../../ms-config-properties/.
+      dockerfile: Dockerfile
+    environment:
+      ARTIFACT: ms-config-properties
+      VERSION=: 1.0.0
+      GIT_USER: "${GIT_USER}"
+      GIT_PWD: "${GIT_PWD}"
+      GIT_DATA: ms-config-data
+      PORT: 8088
+      HOST_ADMIN: http://ms-admin-server:9000
+    secrets:
+      - source: git_password
+        target: git_password
+      - source: git_user
+        target: git_user
+#    entrypoint: [ "/bin/bash", "-c", "source /data/environment.sh && source ~/.bashrc && java -jar /artifact/app.jar ${JAVA_OPTS}"]
+#    volumes:
+#      - ./script/:/data/
+    ports:
+      - '8088:8088'
+secrets:
+  git_password:
+    file: ./env/git_pwd.txt
+  git_user:
+    file: ./env/git_user.txt
+networks:
+  default:
+    external:
+      name: microservice

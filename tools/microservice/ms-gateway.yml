@@ -1,0 +1,21 @@
+version: "3"
+services:
+  ms-gateway:
+    container_name: 'ms-gateway'
+    build:
+      context: ../../ms-gateway/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-gateway
+      VERSION: 1.0.0
+      PORT: 8080
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+    ports:
+      - '8080:8080'
+networks:
+  default:
+    external:
+      name: microservice
