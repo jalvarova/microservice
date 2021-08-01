@@ -1,9 +1,5 @@
 server:
-  port: ${PORT:9001}
----
-spring:
-  application:
-    name: ms-messaging
+  port: ${PORT:9091}
 ---
 info:
   project:
@@ -13,6 +9,8 @@ info:
 ---
 management:
   endpoint:
+    health:
+      show-details: always
     prometheus:
       enabled: true
     metrics:
@@ -55,14 +53,6 @@ spring:
           max-attempts: 3
           max-interval: 30s
 ---
-feign:
-  client:
-    config:
-      event-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
----
 event:
   uri: ${URI_EVENT:http://localhost:9545/ms-mediator-event/api/v1}
   app: hta
@@ -76,12 +66,29 @@ spring:
       uri: ${MONGO_URI:mongodb://localhost:27017}
       database: ${MONGO_DATABASE:messagingdb}
 ---
-eureka:
-  client:
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    eureka-server-connect-timeout-seconds: 30
-    registryFetchIntervalSeconds: 10
-  instance:
-    preferIpAddress: false
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
+---
+opentracing:
+  jaeger:
+    service-name: ms-messaging
+    enabled: true
+    udp-sender:
+      host: ${HOST_TRACE:localhost}
+      port: 6831
+    log-spans: true
+---
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3

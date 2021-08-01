@@ -48,20 +48,34 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-#        - id: id-ms-customers
-#          uri: lb://MS-GESTION-INSTRUCTOR
-#          predicates:
-#            - Path=/api/v1/customers/**
-#          filters:
-#            - RewritePath=/ms-instructor/(?<path>.*), /$\{path}
         - id: id-albumes
           uri: https://jsonplaceholder.typicode.com/albums
           predicates:
             - Path=/albums
         - id: id-ms-currency-transaction
-          uri: http://localhost:9095/
+          uri: http://localhost:9095
           predicates:
             - Path=/ms-currency-transaction/**
+        - id: id-ms-clients
+          uri: http://localhost:9090
+          predicates:
+            - Path=/ms-clients/**
+        - id: id-ms-identity
+          uri: http://localhost:9093
+          predicates:
+            - Path=/ms-identity/**
+        - id: id-ms-mediator-event
+          uri: http://localhost:9545
+          predicates:
+            - Path=/ms-mediator-event/**
+        - id: id-ms-messaging
+          uri: http://localhost:9001
+          predicates:
+            - Path=/ms-messaging/**
+        - id: id-ms-currency
+          uri: http://localhost:9094
+          predicates:
+            - Path=/ms-currency/**
 ---
 opentracing:
   jaeger:

@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:9094}
+  port: ${PORT:9096}
 ---
 spring:
   application:
@@ -15,8 +15,8 @@ spring:
   datasource:
     url: ${DATABASE:jdbc:postgresql://localhost:7432/currencydb}
     driverClassName: org.postgresql.Driver
-    username: ${DATABASE_USER:postgres}
-    password: ${DATABASE_PWD:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
     initialization-mode: always
 ---
 spring:
@@ -51,67 +51,9 @@ management:
           - prometheus
         exclude:
 ---
-eureka:
-  client:
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    eureka-server-connect-timeout-seconds: 30
-    registryFetchIntervalSeconds: 10
-  instance:
-    preferIpAddress: false
----
-opentracing:
-  jaeger:
-    service-name: sub-currency-transaction
-    enabled: true
-    udp-sender:
-      host: localhost
-      port: 6831
-    log-spans: true
----
-spring:
-  cloud:
-    stream:
-      gcp:
-        pubsub:
-          bindings:
-            eventTransactionPusbSub-in-0:
-              consumer:
-                auto-create-resources: false
-            eventTransactionRabbitmq-in-0:
-              consumer:
-                auto-create-resources: false
-      rabbit:
-        bindings:
-          product-rabbit:
-            consumer:
-              bind-queue: false
-              acknowledge-mode: AUTO
-      function:
-        definition: eventTransactionPusbSub;eventTransactionRabbitmq
-      bindings:
-        eventTransactionPusbSub-in-0:
-          destination: hta.currency-exchange.currency
-          group: hta.currency-exchange.currency.transaction.subscriber
-          binder: local_pubsub
-          consumer:
-            auto-startup: true
-            max-attempts: 3
-        eventTransactionRabbitmq-in-0:
-          destination: hta.currency-exchange.currency
-          group: hta.currency-exchange.currency.transaction.subscriber
-          binder: local_rabbit
-          consumer:
-            auto-startup: true
-            max-attempts: 3
-      binders:
-        local_rabbit:
-          type: rabbit
-          default-candidate: false
-        local_pubsub:
-          type: pubsub
-          default-candidate: false
+transaction:
+  queueName: hta.currency-exchange.currency.transaction.subscriber
+  subcription: hta.currency-exchange.currency.transaction.subscriber
 ---
 spring:
   cloud:
@@ -129,3 +71,37 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USR:user}
     password: ${RABBITMQ_PWD:password}
+---
+opentracing:
+  jaeger:
+    service-name: sub-currency-transaction
+    enabled: true
+    udp-sender:
+      host: ${HOST_TRACE:localhost}
+      port: 6831
+    log-spans: true
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
+---
+event:
+  uri: ${URI_EVENT:http://localhost:9545/ms-mediator-event/api/v1}
+  app: hta
+  origin: transaction
+  destination: messaging
+  domain: currency-exchange
+---
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3

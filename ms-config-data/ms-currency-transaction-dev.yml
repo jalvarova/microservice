@@ -13,12 +13,10 @@ info:
 ---
 spring:
   datasource:
-    url: ${HOST_DATABASE:jdbc:postgresql://localhost:7432/currencydb}
+    url: ${DATABASE:jdbc:postgresql://localhost:7432/currencydb}
     driverClassName: org.postgresql.Driver
-    username: postgres
-    password: postgres
-    #data: "classpath:init-data.sql"
-    #schema: "classpath:create_schema.sql"
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
     initialization-mode: always
 ---
 spring:
@@ -26,7 +24,7 @@ spring:
     scan: org.hta.domain.entity
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
 ---
 management:
@@ -54,19 +52,11 @@ management:
         exclude:
 ---
 event:
-  uri: http://localhost:9545/ms-mediator-event/api/v1
+  uri: ${URI_EVENT:http://localhost:9545/ms-mediator-event/api/v1}
   app: hta
   origin: currency
   destination: transaction
   domain: currency-exchange
----
-feign:
-  client:
-    config:
-      event-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
 ---
 eureka:
   client:
@@ -83,6 +73,24 @@ opentracing:
     service-name: ms-currency-transaction
     enabled: true
     udp-sender:
-      host: localhost
+      host: ${HOST_TRACE:localhost}
       port: 6831
     log-spans: true
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
+---
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3
