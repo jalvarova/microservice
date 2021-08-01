@@ -2,6 +2,8 @@ package org.hta.thirtyparty;
 
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
+import org.hta.config.HttpClientConfiguration;
 import org.hta.thirtyparty.model.BROKER;
 import org.hta.thirtyparty.model.Metadata;
 import org.hta.thirtyparty.model.RequestEvent;
@@ -9,7 +11,12 @@ import org.hta.thirtyparty.model.ResponseEvent;
 import org.hta.transport.CurrencyTransactionEventDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.retry.annotation.CircuitBreaker;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import static org.hta.util.ConvertUtil.jsonToString;
 
@@ -30,8 +37,12 @@ public class EventFeignImpl {
     private String domain;
 
     @Autowired
-    private EventFeignClient eventFeignClient;
+    private RetryTemplate retryTemplate;
 
+    @Autowired
+    private HttpClientConfiguration httpClient;
+
+    @TraceSpan(key = "callEventSendApí")
     public Maybe<ResponseEvent> eventSend(CurrencyTransactionEventDto body) {
         String jsonPayload = jsonToString(body);
         RequestEvent requestEvent = RequestEvent
@@ -50,23 +61,23 @@ public class EventFeignImpl {
                 .build();
 
         log.info("Request Event" + jsonToString(requestEvent));
-        return Maybe.just(eventFeignClient.callEventSendApi("", requestEvent));
+        return Maybe.just(callEventSendApí("", requestEvent));
     }
 
-//    @Autowired
-//    private RetryTemplate retryTemplate;
+    @CircuitBreaker(maxAttempts = 5, openTimeout = 15000L, resetTimeout = 30000L, include = {WebClientResponseException.class})
+    private ResponseEvent callEventSendApí(String authorization, RequestEvent requestEvent) {
+        return retryTemplate.execute(retryContext -> httpClient
+                .eventWebClient()
+                .post()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/send")
+                                .build())
+                .body(Mono.just(requestEvent), RequestEvent.class)
+                .header(HttpHeaders.AUTHORIZATION, authorization)
+                .retrieve()
+                .bodyToMono(ResponseEvent.class)
+                .block());
+    }
 
-//    @CircuitBreaker(maxAttempts = 5, openTimeout = 15000L, resetTimeout = 30000L, include = {FeignException.class})
-//    public StockModel inventoryApí(String idTransaction, StockModel stockModelRequest) {
-//        return retryTemplate.execute(retryContext -> identityFeignClient.callInventoryApi(idTransaction, stockModelRequest));
-//    }
-
-//    //@Recover()
-//    public StockModel cacheFallbackResponse(StockModel stockModelRequest) {
-//        return StockModel
-//                .builder()
-//                .entityCode("OE-122")
-//                .skuCode("34015")
-//                .build();
-//    }
 }
