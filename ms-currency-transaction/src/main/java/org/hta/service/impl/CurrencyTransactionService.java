@@ -11,13 +11,16 @@ import org.hta.domain.entity.CurrencyExchange;
 import org.hta.dto.*;
 import org.hta.service.ICurrencyTransactionService;
 import org.hta.thirtyparty.EventApi;
+import org.hta.util.ConvertUtil;
 import org.hta.util.CurrencyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.hta.mappers.CurrencyMapper.*;
+import static org.hta.util.ConvertUtil.objectToMap;
 
 @Service
 @Slf4j
@@ -61,9 +64,8 @@ public class CurrencyTransactionService implements ICurrencyTransactionService {
         currencyTransactionEventDto.setNumberOperation(numberOperation);
         return apiEvent
                 .eventSend(currencyTransactionEventDto, authorization)
-                .map(responseEvent -> Collections.singletonMap("numberOperation", numberOperation));
+                .map(responseEvent -> objectToMap(currencyTransactionEventDto));
     }
-
 
     private CurrencyExchange saveAll(CurrencyExchangeDto dtos) {
 

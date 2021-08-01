@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static org.hta.util.ConvertUtil.jsonToString;
+import static org.hta.util.ConvertUtil.stringToObject;
 
 @Slf4j
 @Component
@@ -37,11 +38,12 @@ public class MessagingListener {
 
     @TraceSpan(key = "eventTransactionRabbitmq")
     @RabbitListener(queues = "${sendgrid.queueName}")
-    public void eventTransactionMessaging(CurrencyTransactionEventDto eventDto) {
-
-        String payload = jsonToString(eventDto);
+    public void eventTransactionMessaging(String payload) {
 
         MessagingDocument messagingDocument = null;
+
+        CurrencyTransactionEventDto eventDto = stringToObject(payload, CurrencyTransactionEventDto.class);
+
         try {
             messagingDocument = messagingRepository.findByOperationNumber(eventDto.getNumberOperation()).block();
 

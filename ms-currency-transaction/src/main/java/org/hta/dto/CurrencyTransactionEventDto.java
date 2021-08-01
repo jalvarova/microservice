@@ -22,6 +22,7 @@ import java.math.BigInteger;
         "exchangeRateAmount",
         "exchangeRate",
         "currencyOrigin",
+        "currencyName",
         "currencyDestination",
         "username",
         "documentNumber"})
@@ -36,11 +37,17 @@ public class CurrencyTransactionEventDto implements Serializable {
 
     private CurrencyCode currencyOrigin;
 
+    private String currencyName;
+
     private CurrencyCode currencyDestination;
 
     private String username;
 
     private String documentNumber;
+
+    private String email;
+
+    private String nameComplete;
 
     private String numberOperation;
 

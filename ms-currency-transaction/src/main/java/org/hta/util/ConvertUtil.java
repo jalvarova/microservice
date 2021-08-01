@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.hta.dto.CurrencyTransactionEventDto;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ConvertUtil {
 
@@ -43,5 +45,9 @@ public class ConvertUtil {
 
     public <T> T decodeObjectTransport(String raw, Class<T> oTransport) throws JsonProcessingException {
         return objectMapper.readValue(raw, oTransport);
+    }
+
+    public static Map<String, String> objectToMap(CurrencyTransactionEventDto obj) throws JsonProcessingException {
+        return objectMapper.convertValue(obj, Map.class);
     }
 }

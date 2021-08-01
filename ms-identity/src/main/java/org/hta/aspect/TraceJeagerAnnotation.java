@@ -32,7 +32,7 @@ public class TraceJeagerAnnotation {
             long start = System.currentTimeMillis();
             String methodName = method.getName();
             Tracer tracer = GlobalTracer.get();
-            Tracer.SpanBuilder spanBuilder = tracer.buildSpan("LoginCustom")
+            Tracer.SpanBuilder spanBuilder = tracer.buildSpan(annotation.key())
                     .withTag(Tags.SPAN_KIND.getKey(), Tags.SPAN_KIND_SERVER);
 
             Span span = spanBuilder.start();
