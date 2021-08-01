@@ -4,6 +4,7 @@ import com.google.cloud.spring.pubsub.core.PubSubTemplate;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.dto.Metadata;
 import org.hta.factory.BrokerOperationFactory;
 import org.hta.strategy.BrokerComplements;
@@ -26,6 +27,7 @@ public class GcpPubSubOperation extends BrokerComplements implements BrokerOpera
     }
 
     @Override
+    @TraceSpan(key = "publishGCP")
     public void publish(Metadata metadata, String message) {
         log.info("Begin publishSendMessage");
         pubSubTemplate
@@ -44,6 +46,7 @@ public class GcpPubSubOperation extends BrokerComplements implements BrokerOpera
     }
 
     @Override
+    @TraceSpan(key = "receiveGCP")
     public String receive(Metadata metadata) {
         List<PubsubMessage> pubsubMessages = pubSubTemplate.pullAndAck(subscriber(metadata), 1, Boolean.TRUE);
         return pubsubMessages

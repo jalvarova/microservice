@@ -1,6 +1,7 @@
 package org.hta.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.dto.Metadata;
 import org.hta.factory.BrokerOperationFactory;
 import org.hta.strategy.BrokerComplements;
@@ -19,6 +20,7 @@ public class KafkaOperation extends BrokerComplements implements BrokerOperation
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
+    @TraceSpan(key = "publishKafka")
     public void publish(Metadata metadata, String message) {
         log.info("Begin publishSendMessage");
         kafkaTemplate.send(topic(metadata), message)

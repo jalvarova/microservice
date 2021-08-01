@@ -1,6 +1,7 @@
 package org.hta.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.dto.Metadata;
 import org.hta.factory.BrokerOperationFactory;
 import org.hta.strategy.BrokerComplements;
@@ -23,14 +24,16 @@ public class RabbitMQOperation extends BrokerComplements implements BrokerOperat
     }
 
     @Override
+    @TraceSpan(key = "publishRabbitmq")
     public void publish(Metadata metadata, String s) {
         log.info("routingKey(metadata) Begin publishSendMessage " + subscriber(metadata) + " and routing key " + routingKey(metadata));
-        rabbitTemplate.convertAndSend(topic(metadata), "#", s);
+        rabbitTemplate.convertAndSend(topic(metadata), routingKey(metadata), s);
         log.info("End publishSendMessage");
 
     }
 
     @Override
+    @TraceSpan(key = "receiveRabbitmq")
     public String receive(Metadata metadata) {
         byte[] bytes = Objects.requireNonNull(rabbitTemplate.receive(subscriber(metadata))).getBody();
         return new String(bytes, StandardCharsets.UTF_8);

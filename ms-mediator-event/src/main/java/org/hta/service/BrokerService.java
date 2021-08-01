@@ -1,6 +1,7 @@
 package org.hta.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.dto.Metadata;
 import org.hta.dto.RequestEvent;
 import org.hta.dto.ResponseEvent;
@@ -17,6 +18,7 @@ public class BrokerService implements IBrokerService {
     private BrokerStrategy brokerStrategy;
 
     @Override
+    @TraceSpan(key = "send")
     public ResponseEvent send(RequestEvent requestEvent) {
         Metadata metadata = requestEvent.getMetadata();
         BROKER broker = metadata.getBroker();
@@ -31,6 +33,7 @@ public class BrokerService implements IBrokerService {
     }
 
     @Override
+    @TraceSpan(key = "receive")
     public ResponseEvent receive(RequestEvent requestEvent) {
         Metadata metadata = requestEvent.getMetadata();
         BROKER broker = metadata.getBroker();

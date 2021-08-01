@@ -2,11 +2,12 @@
 <configuration>
     <!--    <property name="LOGS" value="d:/tmp/elk/" />-->
     <!--	<property scope="context" name="logger.type" value="ms-elk-demo-1" />-->
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="console"
+              class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
                 <!--  %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n  %X{correlationId} -->
-                ${logger.type} %d %p %C{1} %M:%L [%t] %m%n
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n  %X{correlationId}
             </Pattern>
         </layout>
     </appender>
@@ -69,7 +70,7 @@
 
     <!-- LOG everything at INFO level -->
     <root level="INFO">
-        <appender-ref ref="console"/>
+        <appender-ref ref="console" />
         <!--        <appender-ref ref="logstash" />-->
     </root>
 

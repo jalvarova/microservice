@@ -2,6 +2,7 @@ package org.hta.strategy;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.dto.BROKER;
 import org.hta.factory.BrokerOperationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class BrokerStrategyImpl implements BrokerStrategy {
     }
 
     @Override
+    @TraceSpan(key = "brokerOperationFactory")
     public BrokerOperationFactory create(BROKER broker) {
         BrokerOperationFactory companyInventoryStrategy = mapStrategy.get(broker);
         Assert.notNull(companyInventoryStrategy, String.format("Not exists strategy for companyCode : %s", broker.name()));
