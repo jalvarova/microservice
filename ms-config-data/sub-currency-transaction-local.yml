@@ -70,6 +70,10 @@ opentracing:
       port: 6831
     log-spans: true
 ---
+transaction:
+  queueName: hta.currency-exchange.currency.transaction.subscriber
+  subcription: hta.currency-exchange.currency.transaction.subscriber
+---
 spring:
   cloud:
     stream:
