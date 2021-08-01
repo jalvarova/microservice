@@ -1,7 +1,5 @@
 server:
   port: ${PORT:8080}
-  servlet:
-    context-path: ms-gateway
 ---
 spring:
   application:
@@ -15,6 +13,8 @@ info:
 ---
 management:
   endpoint:
+    health:
+      show-details: always
     prometheus:
       enabled: true
     metrics:
