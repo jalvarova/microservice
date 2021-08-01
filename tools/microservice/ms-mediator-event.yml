@@ -24,6 +24,7 @@ services:
       GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}
       HOST_TRACE: jaeger
       KAFKA_HOST: kafka-server:9092
+      LOGSTASH: logstash:5044
     ports:
       - '9545:9545'
 networks:

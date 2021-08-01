@@ -24,6 +24,7 @@ services:
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PWD: ${RABBITMQ_PWD}
+      LOGSTASH: logstash:5044
     ports:
       - '9096:9096'
 networks:

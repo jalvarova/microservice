@@ -29,6 +29,7 @@ services:
       HOST_TRACE: jaeger
       KAFKA_HOST: kafka-server:9092
       MONGO_URI: mongo-server
+      LOGSTASH: logstash:5044
     ports:
       - '9001:9001'
 networks:

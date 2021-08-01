@@ -20,6 +20,7 @@ services:
       URI_CUSTOMER: http://ms-clients:9090/ms-clients/api/v1/
       HOST_TRACE: jaeger
       KAFKA_HOST: kafka-server:9092
+      LOGSTASH: logstash:5044
     ports:
       - '9094:9094'
 networks:

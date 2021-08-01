@@ -18,6 +18,7 @@ services:
       HOST_ADMIN: http://ms-admin-server:9000
       HOST_TRACE: jaeger
       KAFKA_HOST: kafka-server:9092
+      LOGSTASH: logstash:5044
     ports:
       - '9093:9093'
 networks:

@@ -9,6 +9,7 @@ services:
       EUREKA_URI: http://ms-registry:8761
       MS_CONFIG_SERVER: http://ms-config-properties:8088
       ARTIFACT: ms-clients
+      LOGSTASH: logstash:5044
       VERSION: 1.0.0
       PORT: 9000
     ports:

@@ -13,6 +13,7 @@ services:
       PORT: 8080
       HOST_ADMIN: http://ms-admin-server:9000
       HOST_TRACE: jaeger
+      LOGSTASH: logstash:5044
     ports:
       - '8080:8080'
 networks:
