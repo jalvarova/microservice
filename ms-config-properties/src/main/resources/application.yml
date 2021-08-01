@@ -21,6 +21,15 @@ spring:
 #          repos:
 #            a:
 ---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
+---
 management:
   endpoints:
     web:
