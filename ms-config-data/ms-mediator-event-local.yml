@@ -35,17 +35,6 @@ management:
           - prometheus
         exclude:
 ---
-eureka:
-  client:
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    eureka-server-connect-timeout-seconds: 30
-    registryFetchIntervalSeconds: 10
-    wait-time-in-ms-when-sync-empty: 3
-  instance:
-    preferIpAddress: false
----
 spring:
   boot:
     admin:
@@ -81,3 +70,21 @@ spring:
         enabled: true
         connect-timeout: 30s
         period: 30s
+---
+opentracing:
+  jaeger:
+    service-name: ms-mediator-event
+    enabled: true
+    udp-sender:
+      host: ${HOST_TRACE:localhost}
+      port: 6831
+    log-spans: true
+---
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3
