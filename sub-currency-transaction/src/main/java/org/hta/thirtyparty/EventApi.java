@@ -22,7 +22,7 @@ import static org.hta.util.ConvertUtil.jsonToString;
 
 @Slf4j
 @Service
-public class EventFeignImpl {
+public class EventApi {
 
     @Value("${event.app}")
     private String app;

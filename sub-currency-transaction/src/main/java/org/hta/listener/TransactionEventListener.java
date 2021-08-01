@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hta.aspect.TraceSpan;
 import org.hta.domain.CurrencyTransactionRepository;
 import org.hta.domain.entity.CurrencyTransaction;
-import org.hta.thirtyparty.EventFeignImpl;
+import org.hta.thirtyparty.EventApi;
 import org.hta.thirtyparty.model.ResponseEvent;
 import org.hta.transport.CurrencyTransactionEventDto;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -23,7 +23,7 @@ public class TransactionEventListener {
     private CurrencyTransactionRepository transactionRepository;
 
     @Autowired
-    private EventFeignImpl eventFeign;
+    private EventApi eventFeign;
 
     @TraceSpan(key = "eventTransactionRabbitmq")
     @RabbitListener(queues = "${transaction.queueName}")
