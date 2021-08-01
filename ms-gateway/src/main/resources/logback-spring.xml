@@ -24,7 +24,7 @@
                 <pattern>
                     <pattern>
                         {
-                        "api-name": "ms-messaging",
+                        "api-name": "ms-gateway",
                         "api-version": "1.0.0"
                         }
                     </pattern>

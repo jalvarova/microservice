@@ -24,7 +24,7 @@
                 <pattern>
                     <pattern>
                         {
-                        "api-name": "ms-messaging",
+                        "api-name": "ms-admin-server",
                         "api-version": "1.0.0"
                         }
                     </pattern>

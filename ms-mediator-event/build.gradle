@@ -37,6 +37,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub'
 
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'net.logstash.logback:logstash-logback-encoder:6.3'
+    implementation 'net.logstash.log4j:jsonevent-layout:1.7'
+
     implementation 'ch.qos.logback:logback-core:1.2.3'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'ch.qos.logback:logback-access:1.2.3'
