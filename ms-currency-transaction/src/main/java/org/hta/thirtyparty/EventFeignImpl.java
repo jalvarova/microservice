@@ -2,6 +2,8 @@ package org.hta.thirtyparty;
 
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
+import org.hta.configuration.HttpClientConfiguration;
 import org.hta.dto.CurrencyTransactionEventDto;
 import org.hta.thirtyparty.model.BROKER;
 import org.hta.thirtyparty.model.Metadata;
@@ -9,7 +11,12 @@ import org.hta.thirtyparty.model.RequestEvent;
 import org.hta.thirtyparty.model.ResponseEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.retry.annotation.CircuitBreaker;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import static org.hta.util.ConvertUtil.jsonToString;
 
@@ -30,9 +37,13 @@ public class EventFeignImpl {
     private String domain;
 
     @Autowired
-    private EventFeignClient eventFeignClient;
+    private HttpClientConfiguration httpClient;
 
-    public Maybe<ResponseEvent> eventSend(CurrencyTransactionEventDto body) {
+    @Autowired
+    private RetryTemplate retryTemplate;
+
+    @TraceSpan(key = "callEventSendApí")
+    public Maybe<ResponseEvent> eventSend(CurrencyTransactionEventDto body, String authorization) {
         String jsonPayload = jsonToString(body);
         RequestEvent requestEvent = RequestEvent
                 .builder()
@@ -50,23 +61,41 @@ public class EventFeignImpl {
                 .build();
 
         log.info("Request Event" + jsonToString(requestEvent));
-        return Maybe.just(eventFeignClient.callEventSendApi("", requestEvent));
+        return Maybe.just(callEventSendApí(authorization, requestEvent));
     }
 
-//    @Autowired
-//    private RetryTemplate retryTemplate;
+    @CircuitBreaker(maxAttempts = 5, openTimeout = 15000L, resetTimeout = 30000L, include = {WebClientResponseException.class})
+    private ResponseEvent callEventSendApí(String authorization, RequestEvent requestEvent) {
+        return retryTemplate.execute(retryContext ->
+                httpClient
+                        .eventWebClient()
+                        .post()
+                        .uri(uriBuilder ->
+                                uriBuilder
+                                        .path("/send")
+                                        .build())
+                        .body(Mono.just(requestEvent), RequestEvent.class)
+                        .header(HttpHeaders.AUTHORIZATION, authorization)
+                        .retrieve()
+                        .bodyToMono(ResponseEvent.class)
+                        .block());
+    }
 
-//    @CircuitBreaker(maxAttempts = 5, openTimeout = 15000L, resetTimeout = 30000L, include = {FeignException.class})
-//    public StockModel inventoryApí(String idTransaction, StockModel stockModelRequest) {
-//        return retryTemplate.execute(retryContext -> identityFeignClient.callInventoryApi(idTransaction, stockModelRequest));
-//    }
+    @CircuitBreaker(maxAttempts = 5, openTimeout = 15000L, resetTimeout = 30000L, include = {WebClientResponseException.class})
+    private ResponseEvent callEventReceiveApí(String authorization, RequestEvent requestEvent) {
+        return retryTemplate.execute(retryContext ->
+                httpClient
+                        .eventWebClient()
+                        .post()
+                        .uri(uriBuilder ->
+                                uriBuilder
+                                        .path("/receive")
+                                        .build())
+                        .body(Mono.just(requestEvent), RequestEvent.class)
+                        .header(HttpHeaders.AUTHORIZATION, authorization)
+                        .retrieve()
+                        .bodyToMono(ResponseEvent.class)
+                        .block());
+    }
 
-//    //@Recover()
-//    public StockModel cacheFallbackResponse(StockModel stockModelRequest) {
-//        return StockModel
-//                .builder()
-//                .entityCode("OE-122")
-//                .skuCode("34015")
-//                .build();
-//    }
 }

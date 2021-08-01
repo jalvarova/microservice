@@ -5,7 +5,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import org.hta.dto.CurrencyExchangeDto;
 import org.hta.dto.CurrencyTransactionEventDto;
-import org.hta.service.CurrencyTransactionService;
+import org.hta.service.ICurrencyTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CurrencyTransactionController {
 
     @Autowired
-    private CurrencyTransactionService currencyExchangeService;
+    private ICurrencyTransactionService currencyExchangeService;
 
 
     @PutMapping(value = "/currency-exchange", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -29,7 +29,8 @@ public class CurrencyTransactionController {
     }
 
     @PostMapping(value = "/currency-exchange", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Observable<CurrencyExchangeDto> saveCurrencyExchange(@RequestBody @Valid List<CurrencyExchangeDto> request) {
+    public Observable<CurrencyExchangeDto> saveCurrencyExchange(
+            @RequestBody @Valid List<CurrencyExchangeDto> request) {
         return currencyExchangeService.saveExchangeRate(request);
     }
 
@@ -37,7 +38,9 @@ public class CurrencyTransactionController {
             value = "/currency-exchange/transaction",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Maybe<?> saveCurrencyExchangeTransaction(@RequestBody @Valid CurrencyTransactionEventDto currencyTransactionDto) {
-        return currencyExchangeService.saveCurrencyExchangeTransaction(currencyTransactionDto);
+    public Maybe<?> saveCurrencyExchangeTransaction(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody @Valid CurrencyTransactionEventDto currencyTransactionDto) {
+        return currencyExchangeService.saveCurrencyExchangeTransaction(currencyTransactionDto, authorization);
     }
 }

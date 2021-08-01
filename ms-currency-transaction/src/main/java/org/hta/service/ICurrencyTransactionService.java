@@ -9,7 +9,7 @@ import org.hta.dto.CurrencyTransactionEventDto;
 import java.util.List;
 import java.util.Map;
 
-public interface CurrencyTransactionService {
+public interface ICurrencyTransactionService {
 
 
     Single<CurrencyExchangeDto> updateExchangeRate(CurrencyExchangeDto dto);
@@ -18,7 +18,7 @@ public interface CurrencyTransactionService {
     Observable<CurrencyExchangeDto> saveExchangeRate(List<CurrencyExchangeDto> dtos);
 
 
-    Maybe<Map<String, String>> saveCurrencyExchangeTransaction(CurrencyTransactionEventDto currencyTransactionEventDto);
+    Maybe<Map<String, String>> saveCurrencyExchangeTransaction(CurrencyTransactionEventDto currencyTransactionEventDto, String authorization);
 
 
 }

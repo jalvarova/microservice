@@ -5,9 +5,11 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
+import org.hta.aspect.TraceSpan;
 import org.hta.domain.CurrencyExchangeRepository;
 import org.hta.domain.entity.CurrencyExchange;
 import org.hta.dto.*;
+import org.hta.service.ICurrencyTransactionService;
 import org.hta.thirtyparty.EventFeignImpl;
 import org.hta.util.CurrencyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import static org.hta.mappers.CurrencyMapper.*;
 
 @Service
 @Slf4j
-public class CurrencyTransactionService implements org.hta.service.CurrencyTransactionService {
+public class CurrencyTransactionService implements ICurrencyTransactionService {
 
     @Autowired
     private CurrencyExchangeRepository currencyExchangeRepository;
@@ -52,12 +54,13 @@ public class CurrencyTransactionService implements org.hta.service.CurrencyTrans
                 .map(toApiFunc);
     }
 
+    @TraceSpan(key = "saveCurrencyExchangeTransaction")
     @Override
-    public Maybe<Map<String, String>> saveCurrencyExchangeTransaction(CurrencyTransactionEventDto currencyTransactionEventDto) {
+    public Maybe<Map<String, String>> saveCurrencyExchangeTransaction(CurrencyTransactionEventDto currencyTransactionEventDto, String authorization) {
         String numberOperation = UUID.randomUUID().toString();
         currencyTransactionEventDto.setNumberOperation(numberOperation);
         return apiEvent
-                .eventSend(currencyTransactionEventDto)
+                .eventSend(currencyTransactionEventDto, authorization)
                 .map(responseEvent -> Collections.singletonMap("numberOperation", numberOperation));
     }
 
