@@ -53,14 +53,6 @@ spring:
           max-attempts: 3
           max-interval: 30s
 ---
-feign:
-  client:
-    config:
-      event-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
----
 event:
   uri: ${URI_EVENT:http://localhost:9545/ms-mediator-event/api/v1}
   app: hta
@@ -82,3 +74,21 @@ spring:
         enabled: true
         connect-timeout: 30s
         period: 30s
+---
+opentracing:
+  jaeger:
+    service-name: ms-messaging
+    enabled: true
+    udp-sender:
+      host: ${HOST_TRACE:localhost}
+      port: 6831
+    log-spans: true
+---
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3
