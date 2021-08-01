@@ -1,0 +1,254 @@
+version: "3.3"
+services:
+  ms-config-properties:
+    container_name: 'ms-config-properties'
+    build:
+      context: ../../ms-config-properties/.
+      dockerfile: Dockerfile
+    environment:
+      ARTIFACT: ms-config-properties
+      VERSION=: 1.0.0
+      GIT_USER: "${GIT_USER}"
+      GIT_PWD: "${GIT_PWD}"
+      GIT_DATA: ms-config-data
+      PORT: 8088
+      HOST_ADMIN: http://ms-admin-server:9000
+    secrets:
+      - source: git_password
+        target: git_password
+      - source: git_user
+        target: git_user
+    ports:
+      - '8088:8088'
+  ms-admin-server:
+    container_name: 'ms-admin-server'
+    build:
+      context: ../../ms-admin-server/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-clients
+      VERSION: 1.0.0
+      PORT: 9000
+    ports:
+      - '9000:9000'
+    depends_on:
+      - ms-config-properties
+  ms-gateway:
+    container_name: 'ms-gateway'
+    build:
+      context: ../../ms-gateway/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-gateway
+      VERSION: 1.0.0
+      PORT: 8080
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+    ports:
+      - '8080:8080'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+  ms-mediator-event:
+    container_name: 'ms-mediator-event'
+    build:
+      context: ../../ms-mediator-event/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-mediator-event
+      VERSION: 1.0.0
+      PORT: 9545
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      RABBITMQ_HOST: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PWD: ${RABBITMQ_PWD}
+      GOOGLE_PROJECT_ID: ${GOOGLE_PROJECT_ID}
+      GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+    ports:
+      - '9545:9545'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+  ms-identity:
+    container_name: 'ms-identity'
+    build:
+      context: ../../ms-identity/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-identity
+      VERSION: 1.0.0
+      PORT: 9093
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+    ports:
+      - '9093:9093'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+  ms-clients:
+    container_name: 'ms-clients'
+    build:
+      context: ../../ms-clients/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-clients
+      VERSION: 1.0.0
+      PORT: 9090
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+    ports:
+      - '9090:9090'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+  ms-currency:
+    container_name: 'ms-currency'
+    build:
+      context: ../../ms-currency/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-currency
+      VERSION: 1.0.0
+      PORT: 9094
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      URI_IDENTITY: http://ms-identity:9093/ms-identity/api/v1/
+      URI_CUSTOMER: http://ms-clients:9090/ms-clients/api/v1/
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+    ports:
+      - '9094:9094'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+  ms-currency-transaction:
+    container_name: 'ms-currency-transaction'
+    build:
+      context: ../../ms-currency-transaction/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-currency-transaction
+      VERSION: 1.0.0
+      PORT: 9095
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      URI_EVENT: http://ms-mediator-event:9545/ms-mediator-event/api/v1
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+    ports:
+      - '9095:9095'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+      - ms-mediator-event
+  sub-currency-transaction:
+    container_name: 'sub-currency-transaction'
+    build:
+      context: ../../sub-currency-transaction/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: sub-currency-transaction
+      URI_EVENT: http://ms-mediator-event:9545/ms-mediator-event/api/v1
+      VERSION: 1.0.0
+      PORT: 9096
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+      MONGO_URI: mongo-server
+      RABBITMQ_HOST: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PWD: ${RABBITMQ_PWD}
+    ports:
+      - '9096:9096'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+      - ms-mediator-event
+  ms-messaging:
+    container_name: 'ms-messaging'
+    build:
+      context: ../../ms-messaging/.
+      dockerfile: Dockerfile
+    environment:
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-mediator-event
+      VERSION: 1.0.0
+      PORT: 9001
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      URI_EVENT: http://ms-mediator-event:9545/ms-mediator-event/api/v1
+      URI_SENDGRID: http://ms-identity:9093/ms-identity/api/v1/
+      EMAIL_FROM: ${EMAIL_FROM}
+      EMAIL_REPLAY: ${EMAIL_REPLAY}
+      ACCESS_KEY: ${ACCESS_KEY}
+      TEMPLATE_ID: ${TEMPLATE_ID}
+      RABBITMQ_HOST: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USR: ${RABBITMQ_USER}
+      RABBITMQ_PWD: ${RABBITMQ_PWD}
+      HOST_CACHE: redis-server
+      HOST_ADMIN: http://ms-admin-server:9000
+      HOST_TRACE: jaeger
+      KAFKA_HOST: kafka-server:9092
+      MONGO_URI: mongo-server
+    ports:
+      - '9001:9001'
+    depends_on:
+      - ms-config-properties
+      - ms-admin-server
+      - ms-mediator-event
+secrets:
+  git_password:
+    file: ./env/git_pwd.txt
+  git_user:
+    file: ./env/git_user.txt
+networks:
+  default:
+    external:
+      name: microservice

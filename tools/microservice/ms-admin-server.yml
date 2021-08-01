@@ -6,11 +6,11 @@ services:
       context: ../../ms-admin-server/.
       dockerfile: Dockerfile
     environment:
-      - "EUREKA_URI=http://ms-registry:8761"
-      - "MS_CONFIG_SERVER=http://ms-config-properties:8088"
-      - "ARTIFACT=ms-admin-server"
-      - "VERSION=1.0.0"
-      - "PORT=9000"
+      EUREKA_URI: http://ms-registry:8761
+      MS_CONFIG_SERVER: http://ms-config-properties:8088
+      ARTIFACT: ms-clients
+      VERSION: 1.0.0
+      PORT: 9000
     ports:
       - '9000:9000'
 networks:

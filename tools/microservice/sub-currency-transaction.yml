@@ -1,6 +1,6 @@
 version: "3"
 services:
-  ms-identity:
+  sub-currency-transaction:
     container_name: 'sub-currency-transaction'
     build:
       context: ../../sub-currency-transaction/.
