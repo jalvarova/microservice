@@ -275,9 +275,9 @@ public class ExceptionHandlerAdvice {
 
     @ResponseBody
     @ExceptionHandler(WebClientResponseException.class)
-    public ResponseEntity<ErrorResponse> errorClientFeign(WebClientResponseException ex, HttpServletRequest req) {
+    public ResponseEntity<ErrorResponse> errorWebClient(WebClientResponseException ex, HttpServletRequest req) {
         HttpStatus httpStatus = ex.getStatusCode();
-        log.error("Exception error handler " + "errorClientFeign" + " error http : " + httpStatus.name());
+        log.error("Exception error handler " + "errorWebClient" + " error http : " + httpStatus.name());
 
         ErrorResponse errorHandler =
                 ErrorResponse

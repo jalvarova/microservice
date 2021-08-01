@@ -10,7 +10,7 @@ import org.hta.domain.CurrencyExchangeRepository;
 import org.hta.domain.entity.CurrencyExchange;
 import org.hta.dto.*;
 import org.hta.service.ICurrencyTransactionService;
-import org.hta.thirtyparty.EventFeignImpl;
+import org.hta.thirtyparty.EventApi;
 import org.hta.util.CurrencyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class CurrencyTransactionService implements ICurrencyTransactionService {
     private CurrencyExchangeRepository currencyExchangeRepository;
 
     @Autowired
-    private EventFeignImpl apiEvent;
+    private EventApi apiEvent;
 
 
     @Override

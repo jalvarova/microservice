@@ -22,7 +22,7 @@ import static org.hta.util.ConvertUtil.jsonToString;
 
 @Slf4j
 @Service
-public class EventFeignImpl {
+public class EventApi {
 
     @Value("${event.app}")
     private String app;
@@ -60,7 +60,7 @@ public class EventFeignImpl {
                 .jsonPayload(jsonPayload)
                 .build();
 
-        log.info("Request Event" + jsonToString(requestEvent));
+        log.info("Request Event" + jsonPayload);
         return Maybe.just(callEventSendApí(authorization, requestEvent));
     }
 
