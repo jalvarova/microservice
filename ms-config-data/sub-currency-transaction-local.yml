@@ -130,6 +130,24 @@ spring:
     username: ${RABBITMQ_USR:user}
     password: ${RABBITMQ_PWD:password}
 ---
+opentracing:
+  jaeger:
+    service-name: sub-currency-transaction
+    enabled: true
+    udp-sender:
+      host: ${HOST_TRACE:localhost}
+      port: 6831
+    log-spans: true
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: ${HOST_ADMIN:http://localhost:9000}
+        enabled: true
+        connect-timeout: 30s
+        period: 30s
+---
 event:
   uri: ${URI_EVENT:http://localhost:9545/ms-mediator-event/api/v1}
   app: hta
@@ -137,10 +155,11 @@ event:
   destination: messaging
   domain: currency-exchange
 ---
-feign:
-  client:
-    config:
-      event-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
+retry:
+  backoff: 5000
+  max-attempts: 3
+
+circuit-breaker:
+  open-timeout: 10000
+  reset-timeout: 30000
+  max-attempts: 3

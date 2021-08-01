@@ -58,14 +58,6 @@ event:
   destination: transaction
   domain: currency-exchange
 ---
-feign:
-  client:
-    config:
-      event-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
----
 eureka:
   client:
     fetch-registry: true
@@ -81,7 +73,7 @@ opentracing:
     service-name: ms-currency-transaction
     enabled: true
     udp-sender:
-      host: localhost
+      host: ${HOST_TRACE:localhost}
       port: 6831
     log-spans: true
 ---
