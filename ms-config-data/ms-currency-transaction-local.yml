@@ -58,16 +58,6 @@ event:
   destination: transaction
   domain: currency-exchange
 ---
-eureka:
-  client:
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    eureka-server-connect-timeout-seconds: 30
-    registryFetchIntervalSeconds: 10
-  instance:
-    preferIpAddress: false
----
 opentracing:
   jaeger:
     service-name: ms-currency-transaction

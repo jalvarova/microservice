@@ -58,28 +58,6 @@ identity:
 customers:
   uri: ${URI_CUSTOMER:http://localhost:9090/ms-clients/api/v1/}
 ---
-feign:
-  client:
-    config:
-      identity-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
-      customers-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
----
-eureka:
-  client:
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    eureka-server-connect-timeout-seconds: 30
-    registryFetchIntervalSeconds: 10
-  instance:
-    preferIpAddress: false
----
 opentracing:
   jaeger:
     service-name: ms-currency
