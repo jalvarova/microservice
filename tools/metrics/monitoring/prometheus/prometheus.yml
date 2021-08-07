@@ -7,14 +7,14 @@ global:
 # Alertmanager configuration
 alerting:
   alertmanagers:
-  - static_configs:
-    - targets:
-      # - alertmanager:9093
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-  # - "first_rules.yml"
-  # - "second_rules.yml"
+# - "first_rules.yml"
+# - "second_rules.yml"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -24,15 +24,50 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
-    - targets: ['localhost:9090']
-    
+      - targets: ['prometheus:9090']
+
   - job_name: 'ms-identity'
     metrics_path: '/actuator/metrics'
     scrape_interval: 5s
     static_configs:
       - targets: ['ms-identity:9093']
-#  - job_name: 'api-clientes'
-#    metrics_path: '/api-clientes/actuator/prometheus'
-#    scrape_interval: 5s
-#    static_configs:
-#      - targets: ['localhost:9095']
+  - job_name: 'ms-clients'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-clients:9091']
+  - job_name: 'ms-currency-transaction'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-currency-transaction:9095']
+  - job_name: 'ms-mediator-event'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-mediator-event:9545']
+  - job_name: 'ms-messaging'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-messaging:9001']
+  - job_name: 'ms-currency'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-currency:9094']
+  - job_name: 'ms-config-properties'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-config-properties:8088']
+  - job_name: 'ms-admin-server'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ms-admin-server:9000']
+  - job_name: 'sub-currency-transaction'
+    metrics_path: '/actuator/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['sub-currency-transaction:9096']

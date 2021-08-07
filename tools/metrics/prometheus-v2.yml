@@ -9,13 +9,13 @@ scrape_configs:
     # Override the global default and scrape targets from this job every 15 seconds.
     scrape_interval: 15s
     # Path can be different depending on your Spring Boot configuration
-    metrics_path: '/ms-identity/metrics'
+    metrics_path: '/actuator/metrics'
     scheme: https
     # Disable tls check due to self signed certificates
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: ['localhost:9093']
+      - targets: ['ms-identity:9093']
         labels:
           group: 'ms'
           application: 'ms-identity'
