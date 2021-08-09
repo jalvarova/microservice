@@ -37,3 +37,21 @@ docker logs -f ms-messaging
 ```bash
 docker tag ms-messaging:1.0.0 gcr.io/[PROJECT ID]/ms-messaging:1.0.0
 ```
+
+#### Push container repository tag GCP
+
+```bash
+docker push gcr.io/${PROJECT_ID}/ms-messaging:1.0.0
+```
+
+#### Create container docker compose
+
+```bash
+docker-compose -f ms-messaging.yml up -d
+```
+
+#### Delete container docker compose
+
+```bash
+docker-compose -f ms-messaging.yml down
+```

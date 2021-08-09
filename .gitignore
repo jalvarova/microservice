@@ -39,7 +39,7 @@ out/
 /tools/postgres/entrypoint.sh
 /tools/postgres/p-cred.txt
 /tools/postgres/user.txt
-
+/tools/artifactory/iam-devops.json
 ### VS Code ###
 .vscode/
 

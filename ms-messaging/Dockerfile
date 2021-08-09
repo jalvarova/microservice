@@ -5,7 +5,7 @@ RUN gradle clean build
 RUN ls -la
 
 FROM adoptopenjdk:11-jdk-openj9
-ENV ARTIFACT_ID=ms-mediator-event
+ENV ARTIFACT_ID=ms-messaging
 
 RUN apt-get update \
 	&& apt-get install -y ca-certificates \
@@ -14,8 +14,8 @@ RUN apt-get update \
 	ENV TZ=America/Lima
 
 WORKDIR /artifact
-COPY --from=0 /artifact/build/libs/${ARTIFACT_ID}-*.jar app.jar
-COPY --from=0 /artifact/src/main/resources .
+COPY --from=0 /artifact/build/libs/${ARTIFACT_ID}-*.jar /app.jar
+COPY --from=0 /artifact/src/main/resources/ .
 RUN ls -lF
 RUN mkdir -p /${ARTIFACT_ID}/resources
 COPY src/main/resources/* /${ARTIFACT_ID}/resources/

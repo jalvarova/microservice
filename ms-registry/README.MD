@@ -37,3 +37,21 @@ docker logs -f ms-registry
 ```bash
 docker tag ms-registry:1.0.0 gcr.io/[PROJECT ID]/ms-registry:1.0.0
 ```
+
+#### Push container repository tag GCP
+
+```bash
+docker push gcr.io/${PROJECT_ID}/ms-registry:1.0.0
+```
+
+#### Create container docker compose
+
+```bash
+docker-compose -f ms-registry.yml up -d
+```
+
+#### Delete container docker compose
+
+```bash
+docker-compose -f ms-registry.yml down
+```

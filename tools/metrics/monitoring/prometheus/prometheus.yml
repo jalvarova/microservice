@@ -25,7 +25,6 @@ scrape_configs:
     # scheme defaults to 'http'.
     static_configs:
       - targets: ['prometheus:9090']
-
   - job_name: 'ms-identity'
     metrics_path: '/actuator/metrics'
     scrape_interval: 5s

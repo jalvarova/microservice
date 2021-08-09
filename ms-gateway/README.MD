@@ -36,3 +36,21 @@ docker logs -f ms-gateway
 ```bash
 docker tag ms-gateway:1.0.0 gcr.io/[PROJECT ID]/ms-gateway:1.0.0
 ```
+
+#### Push container repository tag GCP
+
+```bash
+docker push gcr.io/${PROJECT_ID}/ms-gateway:1.0.0
+```
+
+#### Create container docker compose
+
+```bash
+docker-compose -f ms-gateway.yml up -d
+```
+
+#### Delete container docker compose
+
+```bash
+docker-compose -f ms-gateway.yml down
+```

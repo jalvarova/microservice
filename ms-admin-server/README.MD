@@ -34,5 +34,23 @@ docker logs -f ms-admin-server
 #### Create a local tag, to publish to the container registry
 
 ```bash
-docker tag ms-admin-server:1.0.0 gcr.io/[PROJECT ID]/ms-admin-server:1.0.0
+docker tag ms-admin-server:1.0.0 gcr.io/${PROJECT_ID}/ms-admin-server:1.0.0
+```
+
+#### Push container repository tag GCP
+
+```bash
+docker push gcr.io/${PROJECT_ID}/ms-admin-server:1.0.0
+```
+
+#### Create container docker compose
+
+```bash
+docker-compose -f ms-admin-server.yml up -d
+```
+
+#### Delete container docker compose
+
+```bash
+docker-compose -f ms-admin-server.yml down
 ```

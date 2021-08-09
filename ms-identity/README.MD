@@ -37,3 +37,21 @@ docker logs -f ms-identity
 ```bash
 docker tag ms-identity:1.0.0 gcr.io/[PROJECT ID]/ms-identity:1.0.0
 ```
+
+#### Push container repository tag GCP
+
+```bash
+docker push gcr.io/${PROJECT_ID}/ms-identity:1.0.0
+```
+
+#### Create container docker compose
+
+```bash
+docker-compose -f ms-identity.yml up -d
+```
+
+#### Delete container docker compose
+
+```bash
+docker-compose -f ms-identity.yml down
+```

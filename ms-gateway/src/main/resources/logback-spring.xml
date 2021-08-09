@@ -11,7 +11,7 @@
 
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <param name="Encoding" value="UTF-8"/>
-        <destination>127.0.0.1:5044</destination>
+        <destination>${LOGSTASH}</destination>
         <keepAliveDuration>5 minutes</keepAliveDuration>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>

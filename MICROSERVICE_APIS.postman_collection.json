@@ -1,0 +1,1569 @@
+{
+	"info": {
+		"_postman_id": "0aa4a57f-6212-4852-9d19-98529a5ae1fb",
+		"name": "MICROSERVICE_APIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CURRENCY",
+			"item": [
+				{
+					"name": "QUERY",
+					"item": [
+						{
+							"name": "APPLY_CURRENCY_EXCHANGE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"return currency exchange\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(5).to.equal(jsonData.amount); ",
+											"    pm.expect(jsonData.amount*jsonData.exchangeRate).to.equal(jsonData.exchangeRateAmount); ",
+											"});",
+											"",
+											"",
+											"",
+											"pm.test(\"return origin and destination currency\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(\"USD\").to.equal(jsonData.currencyOrigin); ",
+											"    pm.expect(\"PEN\").to.equal(jsonData.currencyDestination); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currencyOrigin\": \"USD\",\n    \"currencyDestination\": \"PEN\",\n    \"amount\": 5\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_CURRENCY}}/ms-currency/api/v1/currency-exchange/apply",
+									"host": [
+										"{{API_CURRENCY}}"
+									],
+									"path": [
+										"ms-currency",
+										"api",
+										"v1",
+										"currency-exchange",
+										"apply"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET_ALL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"find all currency\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(6).to.equal(jsonData.length); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_CURRENCY}}/ms-currency/api/v1/currency-exchange",
+									"host": [
+										"{{API_CURRENCY}}"
+									],
+									"path": [
+										"ms-currency",
+										"api",
+										"v1",
+										"currency-exchange"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET_TRANSACTION",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"find all currency\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(6).to.equal(jsonData.length); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "username",
+										"value": "gaguinaga",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_CURRENCY}}/ms-currency/api/v1/currency-exchange/78985851/transaction",
+									"host": [
+										"{{API_CURRENCY}}"
+									],
+									"path": [
+										"ms-currency",
+										"api",
+										"v1",
+										"currency-exchange",
+										"78985851",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET_CURRENCY_OPERATION",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"return currency exchange update\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(3.39608).to.equal(jsonData.amount); ",
+											"});",
+											"",
+											"",
+											"",
+											"pm.test(\"return origin and destination currency\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(\"USD\").to.equal(jsonData.currencyOrigin); ",
+											"    pm.expect(\"PEN\").to.equal(jsonData.currencyDestination); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_CURRENCY}}/ms-currency/api/v1/currency-exchange/transaction/a4b7c850-e85d-48e7-978b-6787e493cd6e/customer/78985851",
+									"host": [
+										"{{API_CURRENCY}}"
+									],
+									"path": [
+										"ms-currency",
+										"api",
+										"v1",
+										"currency-exchange",
+										"transaction",
+										"a4b7c850-e85d-48e7-978b-6787e493cd6e",
+										"customer",
+										"78985851"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "HEALTH",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"return currency exchange update\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(\"UP\").to.equal(jsonData.status); ",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_CURRENCY}}/actuator/health",
+									"host": [
+										"{{API_CURRENCY}}"
+									],
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "METRICS",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_CURRENCY}}/actuator/metrics",
+									"host": [
+										"{{API_CURRENCY}}"
+									],
+									"path": [
+										"actuator",
+										"metrics"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "COMMAND",
+					"item": [
+						{
+							"name": "EVENT_CURRENT_TRANSACTION",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"return currency exchange update\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(5).to.equal(jsonData.amount); ",
+											"});",
+											"",
+											"",
+											"",
+											"pm.test(\"return origin and destination currency\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(\"USD\").to.equal(jsonData.currencyOrigin); ",
+											"    pm.expect(\"PEN\").to.equal(jsonData.currencyDestination); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 5,\n    \"exchangeRateAmount\": 16.98040,\n    \"exchangeRate\": 3.39608,\n    \"currencyOrigin\": \"USD\",\n    \"currencyName\": \"Dolar\",\n    \"currencyDestination\": \"PEN\",\n    \"username\": \"gaguinaga\",\n    \"documentNumber\": \"78985851\",\n    \"nameComplete\": \"Alvaro Aguinaga\",\n    \"email\": \"alvarodaniel2808@gmail.com\",\n    \"accountNumberOrigin\": \"1938250669877\",\n    \"accountNumberDestination\": \"1934543123440\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_CURRENCY_TRANSACTION}}/ms-currency-transaction/api/v1/currency-exchange/transaction",
+									"host": [
+										"{{API_CURRENCY_TRANSACTION}}"
+									],
+									"path": [
+										"ms-currency-transaction",
+										"api",
+										"v1",
+										"currency-exchange",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE_CURRENCY_EXCHANGE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"return currency exchange update\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(3.50).to.equal(jsonData.amount); ",
+											"});",
+											"",
+											"",
+											"",
+											"pm.test(\"return origin and destination currency\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    pm.expect(\"USD\").to.equal(jsonData.currencyOrigin); ",
+											"    pm.expect(\"PEN\").to.equal(jsonData.currencyDestination); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currencyOrigin\": \"USD\",\n    \"currencyDestination\": \"PEN\",\n    \"amount\": \"3.50\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_CURRENCY_TRANSACTION}}/ms-currency-transaction/api/v1/currency-exchange",
+									"host": [
+										"{{API_CURRENCY_TRANSACTION}}"
+									],
+									"path": [
+										"ms-currency-transaction",
+										"api",
+										"v1",
+										"currency-exchange"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SAVE",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"currencyOrigin\": \"USD\",\n        \"currencyDestination\": \"PEN\",\n        \"amount\": 3.72\n    },\n\n\n    {\n        \"currencyOrigin\": \"EUR\",\n        \"currencyDestination\": \"PEN\",\n        \"amount\": 4\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_CURRENCY_TRANSACTION}}/ms-currency/api/v1/currency-exchange",
+									"host": [
+										"{{API_CURRENCY_TRANSACTION}}"
+									],
+									"path": [
+										"ms-currency",
+										"api",
+										"v1",
+										"currency-exchange"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "HEALTH",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											"",
+											"pm.test(\"return currency exchange update\", function () { ",
+											"    console.log(pm.response.json())",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(\"UP\").to.equal(jsonData.status); ",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_CURRENCY_TRANSACTION}}/actuator/health",
+									"host": [
+										"{{API_CURRENCY_TRANSACTION}}"
+									],
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "METRICS",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () { ",
+											"    pm.response.to.have.status(200)",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_CURRENCY_TRANSACTION}}/actuator/metrics",
+									"host": [
+										"{{API_CURRENCY_TRANSACTION}}"
+									],
+									"path": [
+										"actuator",
+										"metrics"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "IDENTITY",
+			"item": [
+				{
+					"name": "AUTHENTICATION",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = JSON.parse(responseBody);",
+									"pm.environment.set(\"TOKEN\",responseData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"aaguinaga\",\n    \"password\": \"12334\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_IDENTITY}}/authentication",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SAVE_USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"gaguinaga\",\n    \"name\": \"Gonzalo\",\n    \"lastName\": \"Aguinaga\",\n    \"password\": \"12345\",\n    \"documentNumber\": \"78985851\",\n    \"roles\": [\n        \"USER\"\n    ],\n    \"permission\": [\n        \"Nivel 1\",\n        \"Nivel 2\",\n        \"Nivel 3\",\n        \"Cambio Precio\",\n        \"Modificación Stock\",\n        \"Modificacion Flete\",\n        \"Credito\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_IDENTITY}}/ms-identity/api/v1/users",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"ms-identity",
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"aaguinaga\",\n    \"password\": \"12345\",\n    \"documentNumber\": \"47082903\",\n    \"name\": \"Alvaro\",\n    \"lastName\": \"Aguinaga\",\n    \"roles\": [\n        \"ADMIN\"\n    ],\n    \"permission\": [\n        \"Nivel 1\",\n        \"Nivel 2\",\n        \"Nivel 3\",\n        \"Cambio Precio\",\n        \"Modificación Stock\",\n        \"Modificacion Flete\",\n        \"Credito\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_IDENTITY}}/ms-identity/api/v1/users",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"ms-identity",
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_IDENTITY}}/ms-identity/api/v1/users/gaguinaga",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"ms-identity",
+								"api",
+								"v1",
+								"users",
+								"gaguinaga"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_DOCUMENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_IDENTITY}}/ms-identity/api/v1/users/47082903/customer",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"ms-identity",
+								"api",
+								"v1",
+								"users",
+								"47082903",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_USERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_IDENTITY}}/ms-identity/api/v1/users",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"ms-identity",
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_USERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_IDENTITY}}/ms-identity/api/v1/users/gaguinaga",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"ms-identity",
+								"api",
+								"v1",
+								"users",
+								"gaguinaga"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HEALTH",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_IDENTITY}}/actuator/health",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "METRICS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_IDENTITY}}/actuator/metrics",
+							"host": [
+								"{{API_IDENTITY}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CUSTOMER",
+			"item": [
+				{
+					"name": "CREATE_CUSTOMERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = JSON.parse(responseBody);",
+									"pm.environment.set(\"ID\",responseData.id);",
+									"pm.environment.set(\"DOCUMENT\",responseData.document);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alvaro\",\n    \"lastName\": \"Aguinaga\",\n    \"documentId\": \"01\",\n    \"documentType\": \"DNI\",\n    \"document\": \"47082903\",\n    \"businessName\": \"Walavo SAC\",\n    \"address\": \"PEDRO LAOS HURTADO MZ A LT 3 - SJM\",\n    \"contacts\": [\n        {\n            \"type\": \"EMAIL\",\n            \"value\": \"Alvaro92q18@gmail.com\"\n        },\n        {\n            \"type\": \"TELEPHONE\",\n            \"value\": \"986809252\"\n        },\n        {\n            \"type\": \"LINK\",\n            \"value\": \"https://www.linkedin.com/in/alvaro-daniel-aguinaga-delgado-29aa10119/\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_CUSTOMER}}/ms-clients/api/v1/customers",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"ms-clients",
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_CUSTOMERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_CUSTOMER}}/ms-clients/api/v1/customers",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"ms-clients",
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_CUSTOMER_DOCUMENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = JSON.parse(responseBody);",
+									"pm.environment.set(\"ID\",responseData.id);",
+									"pm.environment.set(\"DOCUMENT\",responseData.document);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_CUSTOMER}}/ms-clients/api/v1/customers/47082903",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"ms-clients",
+								"api",
+								"v1",
+								"customers",
+								"47082903"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_CUSTOMERS",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alvaro\",\n    \"lastName\": \"Aguinaga Delgado\",\n    \"documentId\": \"01\",\n    \"documentType\": \"DNI\",\n    \"document\": \"47082903\",\n    \"businessName\": \"Walavo SAC\",\n    \"address\": \"PEDRO LAOS HURTADO MZ A LT 3 - SJM\",\n    \"contacts\": [\n        {\n            \"type\": \"EMAIL\",\n            \"value\": \"Alvaro92q18@gmail.com\"\n        },\n        {\n            \"type\": \"TELEPHONE\",\n            \"value\": \"986809252\"\n        },\n        {\n            \"type\": \"LINK\",\n            \"value\": \"https://www.linkedin.com/in/alvaro-daniel-aguinaga-delgado-29aa10119/\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_CUSTOMER}}/ms-clients/api/v1/customers",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"ms-clients",
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_CUSTOMERS",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_CUSTOMER}}/api/v1/customers/{{DOCUMENT}}",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"{{DOCUMENT}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_CUSTOMERS_TOTAL",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_CUSTOMER}}/api/v1/customers/{{ID}}/physical",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"{{ID}}",
+								"physical"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HEALTH",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_CUSTOMER}}/actuator/health",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "METRICS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_CUSTOMER}}/actuator/metrics",
+							"host": [
+								"{{API_CUSTOMER}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MEDIATOR",
+			"item": [
+				{
+					"name": "SEND",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"metadata\" : {\n    \"origin\" : \"currency\",\n    \"destination\" : \"transaction\",\n    \"app\" : \"hta\",\n    \"domain\" : \"currency-exchange\",\n    \"broker\" : \"RABBITMQ\"\n  },\n  \"jsonPayload\" : \"{\\n  \\\"numberOperation\\\" : \\\"e606dbc9-90cc-423e-a6fd-286731610bc4\\\"\\n}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_EVENT}}/ms-mediator-event/api/v1/send",
+							"host": [
+								"{{API_EVENT}}"
+							],
+							"path": [
+								"ms-mediator-event",
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RECEIVE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"origin\": \"customer\",\n        \"destination\": \"wala\",\n        \"app\": \"hta\",\n        \"domain\": \"configuration\",\n        \"broker\": \"PUBSUB\"\n    },\n    \"jsonPayload\": \"{\\\"name\\\":\\\"Alvaro\\\"}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_EVENT}}/ms-mediator-event/api/v1/receive",
+							"host": [
+								"{{API_EVENT}}"
+							],
+							"path": [
+								"ms-mediator-event",
+								"api",
+								"v1",
+								"receive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HEALTH",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_EVENT}}/actuator/health",
+							"host": [
+								"{{API_EVENT}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "METRICS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_EVENT}}/actuator/metrics",
+							"host": [
+								"{{API_EVENT}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MESSAGING",
+			"item": [
+				{
+					"name": "SEND",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = JSON.parse(responseBody);",
+									"pm.environment.set(\"MESSAGE_ID\",responseData.messageId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"templateId\": \"d-591efbfbfd624118ae1212e702ae1706\",\n    \"email\": \"jalvarova9218@gmail.com\",\n    \"messageType\": \"EMAIL\",\n    \"payload\": {\n        \"operation\": \"d6bbc0f9-5357-4086-a8a3-142e9139eddb\",\n        \"documentNumber\": \"47082903\",\n        \"username\": \"Alvaro\",\n        \"nameComplete\": \"Alvaro Aguinaga\",\n        \"account\": \"123414134312\",\n        \"accountDestination\": \"123414134312\",\n        \"amount\": \"100\",\n        \"currency\": \"Dólares\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_MESSAGING}}/ms-messaging/api/v1/sender",
+							"host": [
+								"{{API_MESSAGING}}"
+							],
+							"path": [
+								"ms-messaging",
+								"api",
+								"v1",
+								"sender"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MESSAGING",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_MESSAGING}}/ms-messaging/api/v1/messages",
+							"host": [
+								"{{API_MESSAGING}}"
+							],
+							"path": [
+								"ms-messaging",
+								"api",
+								"v1",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MESSAGE_BY_ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_MESSAGING}}/ms-messaging/api/v1/messages/{{MESSAGE_ID}}",
+							"host": [
+								"{{API_MESSAGING}}"
+							],
+							"path": [
+								"ms-messaging",
+								"api",
+								"v1",
+								"messages",
+								"{{MESSAGE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MESSAGE_BY_EMAIL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_MESSAGING}}/ms-messaging/api/v1/messages/jalvarova9218@gmail.com/email",
+							"host": [
+								"{{API_MESSAGING}}"
+							],
+							"path": [
+								"ms-messaging",
+								"api",
+								"v1",
+								"messages",
+								"jalvarova9218@gmail.com",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HEALTH",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_MESSAGING}}/actuator/health",
+							"host": [
+								"{{API_MESSAGING}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "METRICS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_MESSAGING}}/actuator/metrics",
+							"host": [
+								"{{API_MESSAGING}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GATEWAY",
+			"item": [
+				{
+					"name": "HEALTH",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/actuator/health",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "METRICS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/actuator/metrics",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "INFO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/actuator/info",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"actuator",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ROUTES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/actuator/gateway/routes",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"actuator",
+								"gateway",
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CURRENCY_TRANSACTION",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 5,\n    \"exchangeRateAmount\": 16.98040,\n    \"exchangeRate\": 3.39608,\n    \"currencyOrigin\": \"USD\",\n    \"currencyDestination\": \"PEN\",\n    \"username\": \"gaguinaga\",\n    \"documentNumber\": \"78985851\",\n    \"accountNumberOrigin\": \"1938250669877\",\n    \"accountNumberDestination\": \"1934543123440\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/ms-currency-transaction/api/v1/currency-exchange/transaction",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"ms-currency-transaction",
+								"api",
+								"v1",
+								"currency-exchange",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

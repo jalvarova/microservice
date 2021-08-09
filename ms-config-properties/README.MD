@@ -37,3 +37,21 @@ docker logs -f ms-config-properties
 ```bash
 docker tag ms-config-properties:1.0.0 gcr.io/[PROJECT ID]/ms-config-properties:1.0.0
 ```
+
+#### Push container repository tag GCP
+
+```bash
+docker push gcr.io/${PROJECT_ID}/ms-config-properties:1.0.0
+```
+
+#### Create container docker compose
+
+```bash
+docker-compose -f ms-config-properties.yml up -d
+```
+
+#### Delete container docker compose
+
+```bash
+docker-compose -f ms-config-properties.yml down
+```
