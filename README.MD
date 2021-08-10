@@ -1,89 +1,138 @@
 ## ARQUITECTURA DE MICROSERVICIOS
 
 >La arquitectura de microservicios (en inglés, Micro Services Architecture, MSA) es una aproximación para el desarrollo de software que consiste en construir una aplicación como un conjunto de pequeños servicios, los cuales se ejecutan en su propio proceso y se comunican con mecanismos ligeros (normalmente una API de recursos HTTP). Cada servicio se encarga de implementar una funcionalidad completa del negocio. Cada servicio es desplegado de forma independiente y puede estar programado en distintos lenguajes y usar diferentes tecnologías de almacenamiento de datos.1​
->
+
 [Microservice Bible](https://microservices.io/patterns/index.html)
 
-![alt text](/images/services-architecture.png "Archi")
+![architecture-micro](./images/arq-micro.jpg "Archi")
 
-# Microservice with Spring Boot
+## technologies
+
+* Spring Boot
+* Java RX
+* Spring Security with Jwt 2.0
+* Spring JMS, AMQP (Rabbitmq y Kafka) 
+* Spring PubSub
+* Spring Actuator with Prometheus
+* Spring Boot Admin
+* Spring WebFlux with WebClient
+* Spring Retry (Circuit Breaker)
+* SDK Sendgrid
+* Container Registry (GCP)
+* Docker Compose
+* Open Tracing (Jaeger)
+* Logging Centralizer (ELK)
+* Monitoring and Grafana (Prometheus)
+* Data Bases (Redis, MongoDB and Postgres db)
+
+## Patrones de Microservicios
+
+|               Patterns            |              Approved            |
+|-----------------------------------|----------------------------------|
+| Decompose by business capability  |          :heavy_check_mark:      |
+| Database per Service              |          :heavy_check_mark:      |
+| Externalized configuration        |          :heavy_check_mark:      |
+| CQRS and API Composition          |          :heavy_check_mark:      |
+| API Gateway                       |          :heavy_check_mark:      |
+| Access Token                      |          :heavy_check_mark:      |
+| Circuit Breaker (Reliability)     |          :heavy_check_mark:      |
+| Observability                     |          :heavy_check_mark:      |
 
 
-#### Generated Spring Cli
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=validation,devtools,lombok,actuator,prometheus,web,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=pe.micro.walavo -d packageName=pe.micro.walavo -d artifactId=ms-clients -d name=ms-clients -d applicationName=Client -o ms-clients.zip
-```
-
-#### Generated Spring Cli auth login
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=security,validation,devtools,lombok,actuator,prometheus,web,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-identity -d name=ms-identity -d applicationName=Identity -o ms-identity.zip
-```
-
-
-#### Generated Spring Currency
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=security,validation,devtools,lombok,actuator,prometheus,web,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-currency -d name=ms-currency -d applicationName=Currency -o ms-currency.zip
-```
-
-
-#### Generated Spring subscriber
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=cloud-starter,cloud-stream,cloud-gcp-pubsub,validation,devtools,lombok,actuator,prometheus,data-jpa,postgresql -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=sub-currency-transaction -d name=sub-currency-transaction -d applicationName=CunsumerTransactionApplication -o sub-currency-transaction.zip
-```
-
-
-
-#### Generated Spring Cli Service Cross
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=cloud-config-server,devtools,lombok,actuator,prometheus,web -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-config-properties -d name=ms-config-properties -d applicationName=PropertiesApplication -o ms-config-properties.zip
-```
+## Inicializar Network en docker
 
 ```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=devtools,actuator,prometheus,cloud-eureka-server,cloud-config-client -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-registry -d name=ms-registry -d applicationName=RegistryApplication -o ms-registry.zip
-```
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=devtools,actuator,prometheus,cloud-gateway,cloud-config-client -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-registry -d name=ms-registry -d applicationName=RegistryApplication -o ms-registry.zip
-```
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=cloud-eureka,cloud-gcp-pubsub,amqp,cloud-config-client,devtools,actuator,prometheus -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-mediator-event -d name=ms-mediator-event -d applicationName=MediatorEventApplication -o ms-mediator-event.zip
-```
-
-```bash
-curl -G https://start.spring.io/starter.zip -d dependencies=codecentric-spring-boot-admin-server,actuator,prometheus -d version=1.0.0 -d bootVersion=2.4.5.RELEASE -d javaVersion=11 -d language=java -d packaging=jar -d type=gradle-project -d groupId=org.hta -d packageName=org.hta -d artifactId=ms-admin-server -d name=ms-admin-server -d applicationName=AdminServerApplication -o ms-admin-server.zip
-```
-
-#Infra
-
-### Run Docker rabbit local
-
-```docker
-docker run -d --hostname local-rabbitmq --name local-rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-```
 docker network create -d bridge microservice
+```
 
-## Framework developer
+## Export los environment para levantar los contenedores 
 
-![alt text](/images/framework.png "Framework")
+```bash
+source /tools/env/environment.sh
+```
 
-## Cloud Native
+## Levantar contenedor de kafka server
 
-![alt text](/images/stack-cloud.png "Cloud")
+:file_folder: /tools/kafka
 
-## Technological Stack 
+```bash
+docker-compose up -d
+```
 
-![alt text](/images/stack-spring.png "Stack")
+## Levantar contenedor de ELK
+
+:file_folder: /tools/logging
+
+```bash
+docker-compose up -d
+```
+
+## Levantar contenedor de Grafana de Prometheus
+
+:file_folder: /tools/metrics
+
+```bash
+docker-compose up -d
+```
+
+## Levantar contenedor de Mongo server
+
+:file_folder: /tools/mongo
+
+```bash
+docker-compose up -d
+```
 
 
-## Microservice Stack
+## Levantar contenedor de Mongo server
 
-![alt text](/images/stack-microservice.png "Microservice")
+:file_folder: /tools/mongo
+
+```bash
+docker-compose up -d
+```
+
+## Levantar contenedor de Postgres server
+
+:file_folder: /tools/postgres
+
+```bash
+docker-compose up -d
+```
+
+## Levantar contenedor de Redis server
+
+:file_folder: /tools/postgres
+
+```bash
+docker-compose up -d
+```
+
+## Levantar contenedor de Rabbitmq server
+
+:file_folder: /tools/rabbitmq
+
+
+## Levantar contenedor de Open Tracing
+
+:file_folder: /tools/tracing
+
+```bash
+docker-compose up -d
+```
+
+## Postman Collection y Environment
+
+root :file_folder: MICROSERVICE_APIS.postman_collection.json
+root :file_folder: MICROSERVICE.postman_environment.json
+
+## Startup los microservicios con docker componse
+
+:file_folder: /tools/docker-compose
+
+```bash
+docker-compose up -d
+```
 
 #### References
 
@@ -92,3 +141,11 @@ docker network create -d bridge microservice
 [Initializer Spring](https://start.spring.io/)
 
 [Persistence ORM](https://github.com/vladmihalcea/hibernate-types)
+
+[Docker Network](https://runnable.com/docker/docker-compose-networking)
+
+[Spring Boot ADMIN](https://codecentric.github.io/spring-boot-admin/current/#_what_is_spring_boot_admin)
+
+[Jaeger](https://medium.com/xebia-engineering/jaeger-integration-with-spring-boot-application-3c6ec4a96a6f)
+
+[Sendgrid](https://app.sendgrid.com/guide/integrate/langs/java)
