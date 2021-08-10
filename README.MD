@@ -37,18 +37,19 @@
 | Access Token                      |          :heavy_check_mark:      |
 | Circuit Breaker (Reliability)     |          :heavy_check_mark:      |
 | Observability                     |          :heavy_check_mark:      |
-
+| Mediator                          |          :heavy_check_mark:      |
+| Factory and Adapter               |          :heavy_check_mark:      |
 
 ## Inicializar Network en docker
 
 ```bash
-docker network create -d bridge microservice
+$ docker network create -d bridge microservice
 ```
 
 ## Export los environment para levantar los contenedores 
 
 ```bash
-source /tools/env/environment.sh
+$ source /tools/env/environment.sh
 ```
 
 ## Levantar contenedor de kafka server
@@ -124,6 +125,7 @@ docker-compose up -d
 ## Postman Collection y Environment
 
 root :file_folder: MICROSERVICE_APIS.postman_collection.json
+
 root :file_folder: MICROSERVICE.postman_environment.json
 
 ## Startup los microservicios con docker componse
@@ -135,6 +137,10 @@ docker-compose up -d
 ```
 
 #### References
+
+[Kafka image](https://hub.docker.com/r/bitnami/kafka/)
+
+[Kafka](https://www.paradigmadigital.com/dev/comunicacion-microservicios-apache-kafka/)
 
 [Netflix Microservice](https://netflix.github.io/)
 
