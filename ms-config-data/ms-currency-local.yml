@@ -56,7 +56,7 @@ management:
 identity:
   uri: ${URI_IDENTITY:http://localhost:9093/ms-identity/api/v1/}
 customers:
-  uri: ${URI_CUSTOMER:http://localhost:9090/ms-clients/api/v1/}
+  uri: ${URI_CUSTOMER:http://localhost:9091/ms-clients/api/v1/}
 ---
 opentracing:
   jaeger:
