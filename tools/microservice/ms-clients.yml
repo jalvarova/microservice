@@ -13,14 +13,14 @@ services:
       PORT: 9090
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
-      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      DATABASE: jdbc:postgresql://postgres-server:5432/clientdb
       HOST_CACHE: redis-server
       HOST_ADMIN: http://ms-admin-server:9000
       HOST_TRACE: jaeger
       KAFKA_HOST: kafka-server:9092
       LOGSTASH: logstash:5044
     ports:
-      - '9090:9090'
+      - '9091:9091'
 networks:
   default:
     external:

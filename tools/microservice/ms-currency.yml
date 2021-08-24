@@ -13,7 +13,7 @@ services:
       PORT: 9094
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
-      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      DATABASE: jdbc:postgresql://postgres-server:5432/currencydb
       HOST_CACHE: redis-server
       HOST_ADMIN: http://ms-admin-server:9000
       URI_IDENTITY: http://ms-identity:9093/ms-identity/api/v1/

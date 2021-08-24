@@ -14,7 +14,7 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       URI_EVENT: http://ms-mediator-event:9545/ms-mediator-event/api/v1
-      DATABASE: jdbc:postgresql://postgres-server:5432/rbacdb
+      DATABASE: jdbc:postgresql://postgres-server:5432/currencydb
       HOST_CACHE: redis-server
       HOST_ADMIN: http://ms-admin-server:9000
       HOST_TRACE: jaeger
