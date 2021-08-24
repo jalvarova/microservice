@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:9091}
+  port: ${PORT:9098}
 ---
 info:
   project:
