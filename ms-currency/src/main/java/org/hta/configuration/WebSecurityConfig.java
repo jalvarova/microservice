@@ -31,7 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "Content-Type", "Accept", "responseType", "Authorization"
     };
 
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
